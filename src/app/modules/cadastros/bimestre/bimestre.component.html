@@ -1,0 +1,51 @@
+<div class="card">
+    <form [formGroup]="form" #fr="ngForm">
+
+        <app-crud [form]="fr" titulo="Bimestre" [api]="service">
+            <div fxLayout="column" fxLayoutGap="16px">
+
+                <div fxLayout="row" fxLayoutGap="16px">
+                    <div class="bimestreDrop">
+                        <p-dropdown class="bimestreDrop" formControlName="bimestre" [options]="dropBimestre"
+                            [(ngModel)]="selectedBimestre" (onChange)="validaBimestre($event.value)"
+                            placeholder="Selecione o Bimestre" optionLabel="bimestre" optionValue="id"
+                            [showClear]="true" aria-describedby="bimestre">
+                        </p-dropdown>
+                        <small id="bimestre" class="p-invalid">{{bimestre!.errors | erro}}</small>
+                    </div>
+                </div>
+                <div fxLayout="row" fxLayoutGap="16px">
+                    <div class="p-field p-fluid">
+                        <span class="p-float-label">
+                            <input id="float-ano" class="p-invalid" aria-describedby="faltas" type="number" pInputText
+                                (focusout)="validaAno()" formControlName="ano">
+                            <label for="float-ano">Ano</label>
+                            <small id="ano" class="p-invalid">{{ano!.errors | erro}}</small>
+                        </span>
+                    </div>
+                    <div class="p-field p-fluid">
+                        <span class="p-float-label">
+                            <input id="float-faltas" type="number" class="p-invalid" aria-describedby="faltas"
+                                pInputText formControlName="faltas">
+                            <label for="float-faltas">Faltas</label>
+                            <small id="faltas" class="p-invalid">{{faltas!.errors | erro}}</small>
+                        </span>
+                    </div>
+                </div>
+
+                <div fxLayout="row" fxLayoutGap="22px">
+                    <div class="alunoDrop">
+                        <p-dropdown class="alunoDrop" formControlName="idAlunos" [options]="listaAlunos"
+                            [(ngModel)]="selectedAluno" (onChange)="validaAluno($event.value)"
+                            placeholder="Selecione o Aluno" optionLabel="nome" optionValue="id" [showClear]="true"
+                            aria-describedby="aluno">
+                        </p-dropdown>
+                        <small id="aluno" class="p-invalid">{{idAlunos!.errors | erro}}</small>
+                    </div>
+
+                </div>
+
+            </div>
+        </app-crud>
+    </form>
+</div>

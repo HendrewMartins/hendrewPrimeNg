@@ -1,0 +1,18 @@
+<p-card header={{titulo}} styleClass="p-card-shadow">
+    <ng-template pTemplate="subtitle">
+        <span *ngIf="registroId !== 0; else elseId">Registro {{registroId}}</span>
+        <ng-template #elseId>Novo registro</ng-template>
+    </ng-template>
+
+
+    <ng-template pTemplate="content">
+        <ng-content></ng-content>
+    </ng-template>
+
+    <ng-template pTemplate="footer" >
+        <button pButton pRipple type="button" label="Voltar para a pesquisa" (click)="voltarPesquisa()" class="p-button-outlined p-button-secondary"></button>
+        <button pButton pRipple type="button" label="Limpar" (click)="limpar()" class="p-button-outlined p-button-info"></button>
+        <button pButton pRipple type="button" *ngIf="registroId" label="Deletar" (click)="deletar()" class="p-button-outlined p-button-danger"></button>
+        <button pButton pRipple type="button" type="submit" label="Salvar" (click)="salvar()" ></button>
+    </ng-template>
+</p-card>    

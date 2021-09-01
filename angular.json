@@ -1,5 +1,8 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "cli": {
+    "analytics": "91494edf-efe5-45a1-aa08-418a828cfcbd"
+  },
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
@@ -26,7 +29,7 @@
               "src/favicon.ico",
               "src/assets"
             ],
-            "styles": [
+            "styles": [ 
               "./node_modules/primeicons/primeicons.css",
               "./node_modules/primeng/resources/themes/saga-blue/theme.css",
               "./node_modules/primeflex/primeflex.css",
@@ -99,6 +102,9 @@
               "src/assets"
             ],
             "styles": [
+              "./node_modules/primeng/resources/themes/saga-blue/theme.css",
+              "node_modules/primeng/resources/primeng.min.css",
+              "node_modules/primeicons/primeicons.css",
               "src/styles.css"
             ],
             "scripts": []

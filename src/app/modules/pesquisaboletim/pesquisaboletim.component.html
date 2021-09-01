@@ -1,0 +1,30 @@
+<div class="card">
+            <div class="label-float">
+            <input type="text" required="" placeholder="2021" type="number" [(ngModel)]="registroAno"
+                (keypress)="buscarBoletim($event)" [ngModelOptions]="{standalone: true} ">
+            <label>Digite o Ano</label>
+        </div>
+    
+<p-card header="Boletim" subheader={{registroAno}} styleClass="p-card-shadow">
+    
+        <p-table styleClass="p-datatable-sm" [columns]="colunas" [value]="dataSource" responsiveLayout="scroll">
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th *ngFor="let col of columns">
+                        {{col.label}}
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-dataSource let-columns="columns">
+                <tr>
+                    <td *ngFor="let col of columns">
+                        {{dataSource[col.nome]}}
+                    </td>
+                </tr>
+            </ng-template>
+
+
+        </p-table>
+    
+</p-card>
+</div>

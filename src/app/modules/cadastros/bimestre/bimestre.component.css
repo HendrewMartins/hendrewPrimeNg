@@ -1,0 +1,15 @@
+
+.p-field * {
+    display: block;
+}
+
+.sizes .p-inputtext{
+    
+        display: block;
+        margin-bottom: .5rem;
+       
+}
+
+.sizes .p-inputtext:last-child {
+    margin-bottom: 0;
+}
