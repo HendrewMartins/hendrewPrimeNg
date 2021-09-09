@@ -6,7 +6,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "hendrewPrimeNg": {
+    "hendrewprimeng": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:application": {
@@ -44,8 +44,8 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "1mb",
-                  "maximumError": "2mb"
+                  "maximumWarning": "2mb",
+                  "maximumError": "3mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -76,10 +76,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "hendrewPrimeNg:build:production"
+              "browserTarget": "hendrewprimeng:build:production"
             },
             "development": {
-              "browserTarget": "hendrewPrimeNg:build:development"
+              "browserTarget": "hendrewprimeng:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -87,7 +87,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "hendrewPrimeNg:build"
+            "browserTarget": "hendrewprimeng:build"
           }
         },
         "test": {
@@ -112,5 +112,5 @@
       }
     }
   },
-  "defaultProject": "hendrewPrimeNg"
+  "defaultProject": "hendrewprimeng"
 }
