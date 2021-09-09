@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  //api: `https://testehendrew.herokuapp.com`
+  //api: `https://hendrew-quarkus.herokuapp.com`
   api: `http://localhost:8080`
 };
 
