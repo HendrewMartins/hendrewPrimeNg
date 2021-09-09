@@ -8,7 +8,7 @@ export const PESQUISA_BIMESTRE_CONFIG: PesquisaConfig = {
         },
         {
             label: 'Bimestre',
-            nome: 'desbimestre'
+            nome: 'desc_bimestre'
         },
         {
             label: 'Ano',
@@ -20,11 +20,11 @@ export const PESQUISA_BIMESTRE_CONFIG: PesquisaConfig = {
         },
         {
             label: 'Aluno',
-            nome: 'idAlunos'
+            nome: 'id_Alunos'
         },
         {
             label: 'Nome Aluno',
-            nome: 'nmAlunos'
+            nome: 'nm_Alunos'
         }
     ],
     pathApi: 'bimestre'

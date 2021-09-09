@@ -63,8 +63,8 @@ export class NotasComponent implements OnInit {
   ) {
     this.url = environment.api + '/api/avaliacao';
     this.url1 = environment.api + '/api/alunos';
-    this.url2 = environment.api + '/api/bimestre/aluno';
-    this.url_ler = environment.api + '/api/notas';
+    this.url2 = environment.api + '/api/bimestre/nota/aluno';
+    this.url_ler = environment.api + '/api/nota';
     this.criarForm();
 
   }
@@ -83,27 +83,27 @@ export class NotasComponent implements OnInit {
   public criarForm(): void {
     // tslint:disable-next-line: max-line-length
     this.form = this.fb.group({
-      idavaliacao: [null, Validators.required],
-      notas: [null, Validators.compose([
+      id_Avaliacao: [null, Validators.required],
+      nota: [null, Validators.compose([
         Validators.required,
         Validators.max(10)
       ])],
-      aluno: [null, Validators.required],
-      idbimestre: [null, Validators.required],
+      id_Aluno: [null, Validators.required],
+      id_Bimestre: [null, Validators.required],
     });
   }
-  public get aluno() {
-    return this.form.get('aluno') as FormGroup;
+  public get id_aluno() {
+    return this.form.get('id_Aluno') as FormGroup;
   }
-  public get idbimestre() {
-    return this.form.get('idbimestre') as FormGroup;
+  public get id_bimestre() {
+    return this.form.get('id_Bimestre') as FormGroup;
   }
-  public get idavaliacao() {
-    return this.form.get('idavaliacao') as FormGroup;
+  public get id_avaliacao() {
+    return this.form.get('id_Avaliacao') as FormGroup;
   }
 
   public get nota() {
-    return this.form.get('notas') as FormGroup;
+    return this.form.get('nota') as FormGroup;
   }
 
   private leredit(id: number) {
@@ -113,11 +113,11 @@ export class NotasComponent implements OnInit {
       this.ler(id).subscribe(registro => {
         if (registro) {
           this.notas = registro;
-          const descr = this.notas?.aluno;
+          const descr = this.notas.id_Aluno;
           console.log(descr);
           this.buscarTodosBimestrePorAluno(descr).subscribe((registro1: Bimestre[]) => {
             this.listaBimestre = registro1;
-            console.log(registro1);
+            console.log('Esse'+registro1);
           }, error => {
             console.error(error);
             alert('Deu Erro na hora de Carregar Totos os itens');
@@ -166,8 +166,8 @@ export class NotasComponent implements OnInit {
             this.aval_exist = false;
 
             for (this.contAv_not = 0; this.contAv_not < this.listaNotasAv.length; this.contAv_not++) {
-              if ((descr === this.listaNotasAv[this.contAv_not].idbimestre) &&
-                (this.listaAvaliacaoAux[this.contAv].id === this.listaNotasAv[this.contAv_not].idavaliacao)) {
+              if ((descr === this.listaNotasAv[this.contAv_not].id_Bimestre) &&
+                (this.listaAvaliacaoAux[this.contAv].id === this.listaNotasAv[this.contAv_not].id_Avaliacao)) {
                 this.aval_exist = true;
                 this.contAv_not = this.listaNotasAv.length;
               }
@@ -243,7 +243,7 @@ export class NotasComponent implements OnInit {
             this.contador = 0;
 
             for (this.cont_not = 0; this.cont_not < this.listaNotas.length; this.cont_not++) {
-              if (this.listaBimestreAux[this.cont].id === this.listaNotas[this.cont_not].idbimestre) {
+              if (this.listaBimestreAux[this.cont].id === this.listaNotas[this.cont_not].id_Bimestre) {
                 this.contador++;
                 console.log(this.contador);
               }

@@ -35,12 +35,12 @@
 
                 <div fxLayout="row" fxLayoutGap="22px">
                     <div class="alunoDrop">
-                        <p-dropdown class="alunoDrop" formControlName="idAlunos" [options]="listaAlunos"
+                        <p-dropdown class="alunoDrop" formControlName="id_Aluno" [options]="listaAlunos"
                             [(ngModel)]="selectedAluno" (onChange)="validaAluno($event.value)"
                             placeholder="Selecione o Aluno" optionLabel="nome" optionValue="id" [showClear]="true"
                             aria-describedby="aluno">
                         </p-dropdown>
-                        <small id="aluno" class="p-invalid">{{idAlunos!.errors | erro}}</small>
+                        <small id="aluno" class="p-invalid">{{id_Aluno!.errors | erro}}</small>
                     </div>
 
                 </div>

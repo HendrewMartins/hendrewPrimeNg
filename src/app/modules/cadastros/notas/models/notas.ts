@@ -1,6 +1,9 @@
+import { Avaliacao } from "./avaliacao";
+import { Bimestre } from "./bimestre";
+
 export interface Notas {
-    idavaliacao?: number;
-    notas?: number;
-    idbimestre?: number;
-    aluno?: number;
+    id_Avaliacao?: number;
+    nota?: number;
+    id_Bimestre?: number;
+    id_Aluno?: number;
 }

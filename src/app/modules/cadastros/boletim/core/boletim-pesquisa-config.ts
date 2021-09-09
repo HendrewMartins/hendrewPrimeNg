@@ -4,23 +4,23 @@ export const PESQUISA_BOLETIM_CONFIG: PesquisaConfig = {
     colunas: [
         {
             label: 'Aluno',
-            nome: 'desaluno'
+            nome: 'desc_Aluno'
         },
         {
             label: 'Nota 1º',
-            nome: 'nota1'
+            nome: 'nota_1'
         },
         {
             label: 'Nota 2º',
-            nome: 'nota2'
+            nome: 'nota_2'
         },
         {
             label: 'Nota 3º',
-            nome: 'nota3'
+            nome: 'nota_3'
         },
         {
             label: 'Nota 4º',
-            nome: 'nota4'
+            nome: 'nota_4'
         },
         {
             label: 'Faltas',
@@ -28,7 +28,7 @@ export const PESQUISA_BOLETIM_CONFIG: PesquisaConfig = {
         },
         {
             label: 'Nota Final',
-            nome: 'mediafinal'
+            nome: 'media_final'
         },
         {
             label: 'Situação',

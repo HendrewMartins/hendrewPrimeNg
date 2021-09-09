@@ -6,34 +6,34 @@
 
                 <div fxLayout="row" fxLayoutGap="16px">
                     <div class="alunoDrop">
-                        <p-dropdown class="alunoDrop" formControlName="aluno" [options]="listaAlunos"
+                        <p-dropdown class="alunoDrop" formControlName="id_Aluno" [options]="listaAlunos"
                             [(ngModel)]="selectedAluno" (onChange)="buscarBimestrePorAluno($event.value)"
                             placeholder="Selecione o Aluno" optionLabel="nome" optionValue="id" [showClear]="true"
                             aria-describedby="aluno">
                         </p-dropdown>
-                        <small id="aluno" class="p-invalid">{{aluno!.errors | erro}}</small>
+                        <small id="aluno" class="p-invalid">{{id_aluno!.errors | erro}}</small>
                     </div>
                 </div>
 
                 <div fxLayout="row" fxLayoutGap="16px">
                     <div class="alunoDrop">
-                        <p-dropdown class="alunoDrop" formControlName="idbimestre" [options]="listaBimestre"
+                        <p-dropdown class="alunoDrop" formControlName="id_Bimestre" [options]="listaBimestre"
                             [(ngModel)]="selectedBimestre" (onChange)="buscarAvaliacao($event.value)"
-                            placeholder="Selecione o Bimestre Correspondente" optionLabel="desbimestre" optionValue="id" [showClear]="true"
+                            placeholder="Selecione o Bimestre Correspondente" optionLabel="desc_bimestre" optionValue="id" [showClear]="true"
                             aria-describedby="bimestre">
                         </p-dropdown>
-                        <small id="bimestre" class="p-invalid">{{idbimestre!.errors | erro}}</small>
+                        <small id="bimestre" class="p-invalid">{{id_bimestre!.errors | erro}}</small>
                     </div>
                 </div>
 
                 <div fxLayout="row" fxLayoutGap="22px">
                     <div class="alunoDrop">
-                        <p-dropdown class="alunoDrop" formControlName="idavaliacao" [options]="listaAvaliacao"
+                        <p-dropdown class="alunoDrop" formControlName="id_Avaliacao" [options]="listaAvaliacao"
                             [(ngModel)]="selectedAvaliacao"
                             placeholder="Selecione a Avaliação" optionLabel="descricao" optionValue="id" [showClear]="true"
                             aria-describedby="avaliacao">
                         </p-dropdown>
-                        <small id="avaliacao" class="p-invalid">{{idavaliacao!.errors | erro}}</small>
+                        <small id="avaliacao" class="p-invalid">{{id_avaliacao!.errors | erro}}</small>
                     </div>
                 </div>
 
@@ -41,7 +41,7 @@
                     <div class="p-field p-fluid">
                         <span class="p-float-label">
                             <input id="float-nota" class="p-invalid" aria-describedby="nota" type="number" pInputText
-                                formControlName="notas">
+                                formControlName="nota">
                             <label for="float-nota">Nota</label>
                             <small id="nota" class="p-invalid">{{nota!.errors | erro}}</small>
                         </span>

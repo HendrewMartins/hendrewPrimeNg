@@ -8,6 +8,6 @@ export class NotasService extends Api<Notas> {
 
   constructor(
     public http: HttpClient,
-  ) { super(http, 'notas');
+  ) { super(http, 'nota');
   }
 }

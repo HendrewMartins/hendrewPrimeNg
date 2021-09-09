@@ -8,20 +8,20 @@ export const PESQUISA_NOTAS_CONFIG: PesquisaConfig = {
         },
         {
             label: 'Bimestre',
-            nome: 'desbimestre'
+            nome: 'desc_bimestre'
         },
         {
             label: 'Aluno',
-            nome: 'desalunos'
+            nome: 'desc_Aluno'
         },
         {
             label: 'Avaliação',
-            nome: 'desavaliacao'
+            nome: 'desc_avaliacao'
         },
         {
             label: 'Nota',
             nome: 'notas'
         }
     ],
-    pathApi: 'notas'
+    pathApi: 'nota'
 };

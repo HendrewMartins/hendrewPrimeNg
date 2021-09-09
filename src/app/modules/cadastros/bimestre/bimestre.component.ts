@@ -69,7 +69,7 @@ export class BimestreComponent implements OnInit {
         Validators.minLength(1),
         Validators.maxLength(2)
       ])],
-      idAlunos: [null, Validators.compose([
+      id_Aluno: [null, Validators.compose([
         Validators.required,
         Validators.minLength(1),
         Validators.maxLength(1)
@@ -90,8 +90,8 @@ export class BimestreComponent implements OnInit {
     return this.form.get('faltas') as FormGroup;
   }
 
-  public get idAlunos() {
-    return this.form.get('idAlunos') as FormGroup;
+  public get id_Aluno() {
+    return this.form.get('id_Aluno') as FormGroup;
   }
 
   public buscarTodosAlunos(): Observable<Alunos[]> {
@@ -125,7 +125,7 @@ export class BimestreComponent implements OnInit {
         this.listaBimestre = registro;
         console.log(registro);
         for (this.cont = 0; this.cont < this.listaBimestre.length; this.cont++) {
-          if ((this.listaBimestre[this.cont].idAlunos === id_aluno)
+          if ((this.listaBimestre[this.cont].id_Aluno === id_aluno)
             && (this.listaBimestre[this.cont].bimestre === id_bimestre)
             && (this.listaBimestre[this.cont].ano === ano_escol)) {
             alert('O Bimestre ' + id_bimestre + '° para o Ano de ' + ano_escol + ' já existe para o Aluno Selecionado');
@@ -145,7 +145,7 @@ export class BimestreComponent implements OnInit {
   }
 
   public validaAno() {
-    const id_aluno = this.form.controls['idAlunos'].value;
+    const id_aluno = this.form.controls['id_Aluno'].value;
     const id_bimestre = this.form.controls['bimestre'].value;
     const ano_escol = this.form.controls['ano'].value;
     this.validaBimestreExistente(id_aluno, id_bimestre, ano_escol);
@@ -160,7 +160,7 @@ export class BimestreComponent implements OnInit {
 
   public validaBimestre(bimestre: any) {
     console.log(bimestre);
-    const id_aluno = this.form.controls['idAlunos'].value;
+    const id_aluno = this.form.controls['id_Aluno'].value;
     const id_bimestre = bimestre;
     const ano_escol = this.form.controls['ano'].value;
     this.validaBimestreExistente(id_aluno, id_bimestre, ano_escol);

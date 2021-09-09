@@ -1,8 +1,8 @@
 export interface Bimestre {
     id?: number;
-    desbimestre?: String;
+    desc_bimestre?: String;
     ano?: number;
     faltas?: number;
-    idAlunos?: number;
-    nmAlunos?: String;
+    id_Aluno?: number;
+    bimestre?: number;
 }

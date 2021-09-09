@@ -32,7 +32,9 @@ export class CrudComponent implements OnInit, OnDestroy {
         // tslint:disable-next-line: deprecation
         this.subscription = this.route.params.subscribe(params => {
             // tslint:disable-next-line: no-string-literal
-            this.ler(params['id']);
+            if(params['id']){
+                this.ler(params['id']);
+            }
             // tslint:disable-next-line: no-string-literal
             if (params['delete'] === 'delete') {
                 this.deletar();

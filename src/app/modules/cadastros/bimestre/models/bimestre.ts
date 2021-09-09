@@ -1,6 +1,8 @@
+import { Alunos } from "./alunos";
+
 export interface Bimestre {
     bimestre?: number;
     ano?: number;
     faltas?: number;
-    idAlunos?: number;
+    id_Aluno?: number;
 }
