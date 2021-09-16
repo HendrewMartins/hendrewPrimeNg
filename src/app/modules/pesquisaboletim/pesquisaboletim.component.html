@@ -1,4 +1,5 @@
-<div class="card">
+<p-progressSpinner class="progress" *ngIf="carregar"></p-progressSpinner>
+<div class="card" *ngIf="!carregar">
             <div class="label-float">
             <input type="text" required="" placeholder="2021" type="number" [(ngModel)]="registroAno"
                 (keypress)="buscarBoletim($event)" [ngModelOptions]="{standalone: true} ">

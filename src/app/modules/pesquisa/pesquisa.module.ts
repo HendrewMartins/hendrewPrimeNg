@@ -8,6 +8,8 @@ import { MenuModule } from 'primeng/menu';
 import { TableModule } from 'primeng/table';
 import { CardModule } from 'primeng/card';
 import { PanelModule } from 'primeng/panel';
+import { DialogModule } from 'primeng/dialog'
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 
 @NgModule({
@@ -18,7 +20,9 @@ import { PanelModule } from 'primeng/panel';
         MenuModule,
         ButtonModule,
         FlexLayoutModule,
-        PanelModule
+        PanelModule,
+        DialogModule,
+        ProgressSpinnerModule
     ],
     exports: [],
     declarations: [PesquisaComponent],

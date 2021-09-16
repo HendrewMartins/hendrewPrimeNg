@@ -21,10 +21,10 @@ import { Notas } from './models/notas';
 export class NotasComponent implements OnInit {
 
   public form!: FormGroup;
-  public url: string;
-  public url1: string;
-  public url2: string;
-  public url_ler: string;
+  public urlAvaliacao: string;
+  public urlAlunos: string;
+  public urlNotaAluno: string;
+  public urlLerNota: string;
   public cont: number = 0;
   public cont_not: number = 0;
   public contAv: number = 0;
@@ -52,6 +52,8 @@ export class NotasComponent implements OnInit {
   public selectedAluno!: Alunos;
   public selectedBimestre!: Bimestre;
   public selectedAvaliacao!: Avaliacao;
+  public carregar: boolean = true;
+  public pesquisaCar: boolean = true;
 
   constructor(
     private fb: FormBuilder,
@@ -61,23 +63,39 @@ export class NotasComponent implements OnInit {
     private router: Router,
 
   ) {
-    this.url = environment.api + '/api/avaliacao';
-    this.url1 = environment.api + '/api/alunos';
-    this.url2 = environment.api + '/api/bimestre/nota/aluno';
-    this.url_ler = environment.api + '/api/nota';
+    this.urlAvaliacao = environment.api + '/api/avaliacao';
+    this.urlAlunos = environment.api + '/api/alunos';
+    this.urlNotaAluno = environment.api + '/api/bimestre/nota/aluno';
+    this.urlLerNota = environment.api + '/api/nota';
     this.criarForm();
 
   }
 
 
   ngOnInit(): void {
-    this.buscarAvaliacao(0);
-    this.buscarAlunos();
-    this.subscription = this.route.params.subscribe(params => {
+    this.subscription = this.route.data.subscribe(params => {
       // tslint:disable-next-line: no-string-literal
-      console.log('entrou');
-      this.leredit(params['id']);
+      const dados = params;
+      console.log(dados.pathApi);
+      if (dados.pathApi === 'nota') {
+
+        this.pesquisaCar = true;
+        this.router.navigate(['pesquisa'], { relativeTo: this.route.parent });
+
+      } else {
+
+        this.pesquisaCar = false;
+        this.buscarAvaliacao(0);
+        this.buscarAlunos();
+        this.subscription = this.route.params.subscribe(params => {
+          // tslint:disable-next-line: no-string-literal
+          this.leredit(params['id']);
+        });
+
+      }
     });
+
+
   }
 
   public criarForm(): void {
@@ -117,7 +135,7 @@ export class NotasComponent implements OnInit {
           console.log(descr);
           this.buscarTodosBimestrePorAluno(descr).subscribe((registro1: Bimestre[]) => {
             this.listaBimestre = registro1;
-            console.log('Esse'+registro1);
+            console.log('Esse' + registro1);
           }, error => {
             console.error(error);
             alert('Deu Erro na hora de Carregar Totos os itens');
@@ -131,13 +149,13 @@ export class NotasComponent implements OnInit {
   }
 
   public ler(id: number): Observable<Notas> {
-    return this.http.get<Notas>(this.url_ler + '/id/' + id).pipe(map((item: any) => {
+    return this.http.get<Notas>(this.urlLerNota + '/id/' + id).pipe(map((item: any) => {
       return item;
     }));
   }
 
   public buscarTodosAvaliacao(): Observable<Avaliacao[]> {
-    return this.http.get<Avaliacao[]>(this.url).pipe(map((item: Avaliacao[]) => {
+    return this.http.get<Avaliacao[]>(this.urlAvaliacao).pipe(map((item: Avaliacao[]) => {
       return item;
     }));
   }
@@ -194,7 +212,7 @@ export class NotasComponent implements OnInit {
 
 
   public buscarTodosAlunos(): Observable<Alunos[]> {
-    return this.http.get<Alunos[]>(this.url1).pipe(map((item: Alunos[]) => {
+    return this.http.get<Alunos[]>(this.urlAlunos).pipe(map((item: Alunos[]) => {
       return item;
     }));
 
@@ -204,6 +222,7 @@ export class NotasComponent implements OnInit {
     // tslint:disable-next-line: deprecation
     this.buscarTodosAlunos().subscribe((registro: Alunos[]) => {
       this.listaAlunos = registro;
+      this.carregar = false;
       console.log(registro);
     }, error => {
       console.error(error);
@@ -212,13 +231,13 @@ export class NotasComponent implements OnInit {
   }
 
   public buscarTodosBimestrePorAluno(value: any): Observable<Bimestre[]> {
-    return this.http.get<Bimestre[]>(this.url2 + '/' + value).pipe(map((item: Bimestre[]) => {
+    return this.http.get<Bimestre[]>(this.urlNotaAluno + '/' + value).pipe(map((item: Bimestre[]) => {
       return item;
     }));
   }
 
   public buscarTodasNotas(): Observable<Notas[]> {
-    return this.http.get<Notas[]>(this.url_ler + '/').pipe(map((item: Notas[]) => {
+    return this.http.get<Notas[]>(this.urlLerNota + '/').pipe(map((item: Notas[]) => {
       return item;
     }));
   }

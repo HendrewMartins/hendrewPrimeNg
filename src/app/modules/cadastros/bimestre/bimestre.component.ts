@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { BimestreService } from 'src/app/services/bimestre.service';
 import { environment } from 'src/environments/environment';
@@ -20,25 +21,29 @@ import { DropBimestre } from './models/dropbimestre';
 export class BimestreComponent implements OnInit {
 
   public form!: FormGroup;
-  public url: string;
-  public url2: string;
+  public urlAlunos: string;
+  public urlBimestreAluno: string;
   public listaAlunos: Alunos[] = [];
+  public listaFiltradaAlunos: Alunos[] = [];
   public listaBimestre: Bimestre[] = [];
   public cont: number = 0;
   public dropBimestre!: DropBimestre[]; 
   public selectedBimestre!: DropBimestre;
   public selectedAluno!: Alunos;
 
-  @Input() public aluno!: Alunos;
-
+  public carregar: boolean = true;
+  public pesquisaCar: boolean = true;
+  private subscription!: Subscription;
 
   constructor(
     private fb: FormBuilder,
     public service: BimestreService,
     public http: HttpClient,
+    public route: ActivatedRoute,
+    public router: Router
   ) {
-    this.url = environment.api + '/api/alunos';
-    this.url2 = environment.api + '/api/bimestre/aluno';
+    this.urlAlunos = environment.api + '/api/alunos';
+    this.urlBimestreAluno = environment.api + '/api/bimestre/aluno';
     this.dropBimestre = [
       {id: 1, bimestre: '1º Bimestre'},
       {id: 2, bimestre: '2º Bimestre'},
@@ -49,7 +54,23 @@ export class BimestreComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.buscarAlunos();
+    this.subscription = this.route.data.subscribe(params => {
+      // tslint:disable-next-line: no-string-literal
+      const dados = params;
+      console.log(dados.pathApi);
+      if (dados.pathApi === 'bimestre') {
+
+        this.pesquisaCar = true;
+        this.router.navigate(['pesquisa'], { relativeTo: this.route.parent });
+
+      } else {
+
+        this.pesquisaCar = false;
+        this.buscarAlunos();
+      }
+    });
+
+    
   }
   public criarForm(): void {
     // tslint:disable-next-line: max-line-length
@@ -70,9 +91,7 @@ export class BimestreComponent implements OnInit {
         Validators.maxLength(2)
       ])],
       id_Aluno: [null, Validators.compose([
-        Validators.required,
-        Validators.minLength(1),
-        Validators.maxLength(1)
+        Validators.required
       ])],
     });
 
@@ -95,7 +114,7 @@ export class BimestreComponent implements OnInit {
   }
 
   public buscarTodosAlunos(): Observable<Alunos[]> {
-    return this.http.get<Alunos[]>(this.url).pipe(map((item: Alunos[]) => {
+    return this.http.get<Alunos[]>(this.urlAlunos).pipe(map((item: Alunos[]) => {
       return item;
     }));
 
@@ -106,6 +125,7 @@ export class BimestreComponent implements OnInit {
     this.buscarTodosAlunos().subscribe((registro: Alunos[]) => {
       this.listaAlunos = registro;
       console.log(registro);
+      this.carregar = false;
     }, error => {
       console.error(error);
       alert('Deu Erro na hora de Carregar Totos os itens');
@@ -113,7 +133,7 @@ export class BimestreComponent implements OnInit {
   }
 
   public buscarTodosBimestrePorAluno(value: any): Observable<Bimestre[]> {
-    return this.http.get<Bimestre[]>(this.url2 + '/' + value).pipe(map((item: Bimestre[]) => {
+    return this.http.get<Bimestre[]>(this.urlBimestreAluno + '/' + value).pipe(map((item: Bimestre[]) => {
       return item;
     }));
   }
@@ -164,6 +184,20 @@ export class BimestreComponent implements OnInit {
     const id_bimestre = bimestre;
     const ano_escol = this.form.controls['ano'].value;
     this.validaBimestreExistente(id_aluno, id_bimestre, ano_escol);
+  }
+
+  public filtroAlunos(event: any) {
+    //in a real application, make a request to a remote url with the query and return filtered results, for demo we filter at client side
+    let filtered: any[] = [];
+    let query = event.query;
+    for (let i = 0; i < this.listaAlunos.length; i++) {
+      let aluno = this.listaAlunos[i];
+      if (aluno.nome!.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+        filtered.push(aluno);
+      }
+    }
+
+    this.listaFiltradaAlunos = filtered;
   }
 
 }

@@ -9,18 +9,21 @@ import { MenuDataService } from 'src/app/services/menu-data.service';
   styleUrls: ['./admin.component.css']
 })
 export class AdminComponent implements OnInit {
-  
-  
-  visibleSidebar1: any;
-  isMenuVisible: boolean | undefined;
 
-  constructor(private primengConfig: PrimeNGConfig, 
-              private menuDataService: MenuDataService,
-              private applicationStateService: ApplicationStateService) { 
-    
+
+  public visibleSidebar1: any;
+  public isMenuVisible: boolean | undefined;
+
+
+  constructor(private primengConfig: PrimeNGConfig,
+    private menuDataService: MenuDataService,
+    private applicationStateService: ApplicationStateService) {
+
   }
 
+
   ngOnInit(): void {
+
     this.primengConfig.ripple = true;
     var that = this;
     this.menuDataService.toggleMenuBar.subscribe(function (data: any) {
@@ -34,6 +37,8 @@ export class AdminComponent implements OnInit {
     } else {
       this.isMenuVisible = true;
     }
+    
   }
+
 
 }

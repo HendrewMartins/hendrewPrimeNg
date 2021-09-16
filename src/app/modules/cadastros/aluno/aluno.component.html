@@ -1,0 +1,30 @@
+<p-progressSpinner class="progress" *ngIf="carregar"></p-progressSpinner>
+<div class="card" *ngIf="!carregar && !pesquisaCar">
+    <form [formGroup]="form" #fr="ngForm">
+
+        <app-crud [form]="fr" titulo="Alunos" [api]="service">
+            <div fxLayout="column" fxLayoutGap="16px">
+                <div fxLayout="row" fxLayoutGap="16px">
+                    <div class="p-field p-fluid">
+                        <span class="p-float-label">
+                            <input id="float-nome" class="p-invalid" aria-describedby="nome" type="text" pInputText
+                                formControlName="nome">
+                            <label for="float-nome">Nome</label>
+                            <small id="nome" class="p-invalid">{{nome!.errors | erro}}</small>
+                        </span>
+                    </div>
+                </div>
+                <div fxLayout="row" fxLayoutGap="16px">
+                    <div class="p-fluid p-grid p-formgrid">
+
+                        <label for="icon">Data Nascimento</label>
+
+                        <p-calendar class="calendar" [inline]="false" formControlName="dt_nasc" [showIcon]="false" dateFormat="dd/mm/yy" inputId="icon"
+                            (onSelect)="mudaValor()" (onInput)="mudaValor()"></p-calendar>
+                        <small id="dt_nasc" class="p-invalid">{{dt_nasc!.errors | erro}}</small>
+                    </div>
+                </div>
+            </div>
+        </app-crud>
+    </form>
+</div>

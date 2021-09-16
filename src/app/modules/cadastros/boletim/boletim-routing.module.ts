@@ -2,11 +2,12 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { PesquisaboletimComponent } from '../../pesquisaboletim/pesquisaboletim.component';
 import { PesquisaResolveService } from '../../pesquisaboletim/services/pesquisa-resolve.service';
+import { BoletimComponent } from './boletim.component';
 import { PESQUISA_BOLETIM_CONFIG } from './core/boletim-pesquisa-config';
 
 const routes: Routes = [
   {
-    path: '', redirectTo: 'pesquisa', pathMatch: 'full'
+    path: '', redirectTo: 'carregar', pathMatch: 'full'
   },
   {
     path: 'pesquisa', component: PesquisaboletimComponent,
@@ -14,6 +15,10 @@ const routes: Routes = [
     resolve: {
       registros: PesquisaResolveService
     }
+  },
+  {
+    path: 'carregar', component: BoletimComponent,
+    data: PESQUISA_BOLETIM_CONFIG
   },
 ];
 

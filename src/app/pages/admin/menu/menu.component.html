@@ -5,9 +5,7 @@
                 <a [routerLink]="[menu.RouterLink]" routerLinkActive="link-activated"  >
                     <i class="icone"   [ngClass]="menu.Icon"></i>
                     {{menu.Label}}
-    
                 </a>
-                
             </li>
         </ng-template>
         <ng-container *ngTemplateOutlet="recursiveList; context:{ $implicit: items }"></ng-container>

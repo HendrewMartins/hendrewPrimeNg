@@ -3,8 +3,6 @@ import { CustomMenuItem } from 'src/app/modules/menu/models/menu-item.model';
 import { ApplicationStateService } from 'src/app/services/application-state.service';
 import { MenuDataService } from 'src/app/services/menu-data.service';
 
-
-
 import { PrimeNGConfig } from 'primeng/api';
 
 @Component({
@@ -18,12 +16,17 @@ export class MenuComponent implements OnInit {
     selectedItem: string | undefined;
     visible!: boolean;
 
+   
+
     constructor(
         private primengConfig: PrimeNGConfig,
         private menuDataService: MenuDataService,
-        private applicationStateService: ApplicationStateService) { }
+        private applicationStateService: ApplicationStateService,
+    ) { }
 
-    ngOnInit() {
+    ngOnInit() { 
+       
+
         this.primengConfig.ripple = true;
         this.items = this.menuDataService.getMenuList();
 
@@ -52,4 +55,5 @@ export class MenuComponent implements OnInit {
         this.menuDataService.toggleMenuBar.observers.forEach(function (element) { element.complete(); });
     }
 
+    
 }

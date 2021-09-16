@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { PesquisaComponent } from '../../pesquisa/pesquisa.component';
 import { PesquisaResolveService } from '../../pesquisa/services/pesquisa-resolve.service';
-import { PESQUISA_NOTAS_CONFIG } from './core/notas-pesquisa-config';
-import { NotasComponent } from './notas.component';
+import { PESQUISA_ALUNO_CONFIG } from './core/aluno-pesquisa-config';
+import { AlunoComponent } from './aluno.component';
 
 const routes: Routes = [
   {
@@ -11,23 +11,24 @@ const routes: Routes = [
   },
   {
     path: 'pesquisa', component: PesquisaComponent,
-    data: PESQUISA_NOTAS_CONFIG,
+    data: PESQUISA_ALUNO_CONFIG,
     resolve: {
       registros: PesquisaResolveService
     }
   },
   {
-    path: 'carregar', component: NotasComponent,
-    data: PESQUISA_NOTAS_CONFIG
+    path: 'carregar', component: AlunoComponent,
+    data: PESQUISA_ALUNO_CONFIG
+  },
+
+  {
+    path: 'novo', component: AlunoComponent
   },
   {
-    path: 'novo', component: NotasComponent
+    path: ':id', component: AlunoComponent
   },
   {
-    path: ':id', component: NotasComponent
-  },
-  {
-    path: ':id/:delete', component: NotasComponent
+    path: ':id/:delete', component: AlunoComponent
   }
 ];
 
@@ -35,4 +36,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class NotasRoutingModule { }
+export class AlunoRoutingModule { }

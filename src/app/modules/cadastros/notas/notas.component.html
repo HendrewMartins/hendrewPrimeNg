@@ -1,4 +1,6 @@
-<div class="card">
+
+<p-progressSpinner class="progress" *ngIf="carregar"></p-progressSpinner>
+<div class="card" *ngIf="!carregar && !pesquisaCar">
     <form [formGroup]="form" #fr="ngForm">
 
         <app-crud [form]="fr" titulo="Notas" [api]="service">
@@ -7,7 +9,7 @@
                 <div fxLayout="row" fxLayoutGap="16px">
                     <div class="alunoDrop">
                         <p-dropdown class="alunoDrop" formControlName="id_Aluno" [options]="listaAlunos"
-                            [(ngModel)]="selectedAluno" (onChange)="buscarBimestrePorAluno($event.value)"
+                            (onChange)="buscarBimestrePorAluno($event.value)"
                             placeholder="Selecione o Aluno" optionLabel="nome" optionValue="id" [showClear]="true"
                             aria-describedby="aluno">
                         </p-dropdown>
@@ -18,7 +20,7 @@
                 <div fxLayout="row" fxLayoutGap="16px">
                     <div class="alunoDrop">
                         <p-dropdown class="alunoDrop" formControlName="id_Bimestre" [options]="listaBimestre"
-                            [(ngModel)]="selectedBimestre" (onChange)="buscarAvaliacao($event.value)"
+                            (onChange)="buscarAvaliacao($event.value)"
                             placeholder="Selecione o Bimestre Correspondente" optionLabel="desc_bimestre" optionValue="id" [showClear]="true"
                             aria-describedby="bimestre">
                         </p-dropdown>
@@ -29,7 +31,6 @@
                 <div fxLayout="row" fxLayoutGap="22px">
                     <div class="alunoDrop">
                         <p-dropdown class="alunoDrop" formControlName="id_Avaliacao" [options]="listaAvaliacao"
-                            [(ngModel)]="selectedAvaliacao"
                             placeholder="Selecione a Avaliação" optionLabel="descricao" optionValue="id" [showClear]="true"
                             aria-describedby="avaliacao">
                         </p-dropdown>

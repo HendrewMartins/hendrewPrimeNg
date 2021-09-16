@@ -26,6 +26,8 @@ export class PesquisaboletimComponent implements OnInit {
 
     public url: string;
 
+    public carregar: boolean = true;
+
     constructor(
         private route: ActivatedRoute,
         private router: Router,
@@ -37,9 +39,12 @@ export class PesquisaboletimComponent implements OnInit {
         this.dataSource = config.registros;
         console.log(this.dataSource);
         this.url = environment.api + '/api/boletim/';
+        
     }
 
-    ngOnInit() { }
+    ngOnInit() { 
+        this.carregar = false;
+    }
 
     public buscarBoletim(event: any) {
         if (event.keyCode === 13 && this.registroAno > 2000 && this.registroAno < 3000) {

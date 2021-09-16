@@ -15,6 +15,9 @@ export class MenuDataService {
     getMenuList(): CustomMenuItem[] {
         return [
             {
+                Label: 'Alunos', Icon: 'pi pi-users', RouterLink: 'aluno', Childs: [], IsChildVisible: false
+            },
+            {
                 Label: 'Fechamento Bimestre', Icon: 'pi pi-list', RouterLink: 'bimestre', Childs: [], IsChildVisible: false
             },
             {

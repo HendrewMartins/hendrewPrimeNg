@@ -1,4 +1,5 @@
-<div class="card">
+<p-progressSpinner class="progress" *ngIf="carregar"></p-progressSpinner>
+<div class="card" *ngIf="!carregar && !pesquisaCar">
     <form [formGroup]="form" #fr="ngForm">
 
         <app-crud [form]="fr" titulo="Bimestre" [api]="service">
@@ -7,7 +8,7 @@
                 <div fxLayout="row" fxLayoutGap="16px">
                     <div class="bimestreDrop">
                         <p-dropdown class="bimestreDrop" formControlName="bimestre" [options]="dropBimestre"
-                            [(ngModel)]="selectedBimestre" (onChange)="validaBimestre($event.value)"
+                            (onChange)="validaBimestre($event.value)"
                             placeholder="Selecione o Bimestre" optionLabel="bimestre" optionValue="id"
                             [showClear]="true" aria-describedby="bimestre">
                         </p-dropdown>
@@ -34,9 +35,13 @@
                 </div>
 
                 <div fxLayout="row" fxLayoutGap="22px">
+                    <p-autoComplete formControlName="id_Aluno" [suggestions]="listaFiltradaAlunos"
+                    placeholder="Selecione o Aluno" (completeMethod)="filtroAlunos($event)" field="nome" dataKey="id" minLength="2"></p-autoComplete>
+                        
                     <div class="alunoDrop">
-                        <p-dropdown class="alunoDrop" formControlName="id_Aluno" [options]="listaAlunos"
-                            [(ngModel)]="selectedAluno" (onChange)="validaAluno($event.value)"
+                        
+                         <p-dropdown class="alunoDrop" formControlName="id_Aluno" [options]="listaAlunos"
+                           (onChange)="validaAluno($event.value)"
                             placeholder="Selecione o Aluno" optionLabel="nome" optionValue="id" [showClear]="true"
                             aria-describedby="aluno">
                         </p-dropdown>

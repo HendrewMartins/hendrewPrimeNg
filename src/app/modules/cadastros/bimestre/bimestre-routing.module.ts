@@ -7,7 +7,7 @@ import { BimestreComponent } from './bimestre.component';
 
 const routes: Routes = [
   {
-    path: '', redirectTo: 'pesquisa', pathMatch: 'full'
+    path: '', redirectTo: 'carregar', pathMatch: 'full'
   },
   {
     path: 'pesquisa', component: PesquisaComponent,
@@ -15,6 +15,10 @@ const routes: Routes = [
     resolve: {
       registros: PesquisaResolveService
     }
+  },
+  {
+    path: 'carregar', component: BimestreComponent,
+    data: PESQUISA_BIMESTRE_CONFIG
   },
   {
     path: 'novo', component: BimestreComponent

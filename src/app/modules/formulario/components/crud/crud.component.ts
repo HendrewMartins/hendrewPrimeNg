@@ -70,6 +70,7 @@ export class CrudComponent implements OnInit, OnDestroy {
 
     private alterar() {
         const value = this.form.form.value;
+        console.log(this.form.form.value);
         value.id = this.registroId;
         // tslint:disable-next-line: deprecation
         this.api.alterar(value, this.registroId).subscribe(registro => {
@@ -85,6 +86,7 @@ export class CrudComponent implements OnInit, OnDestroy {
 
     private criar() {
         // tslint:disable-next-line: deprecation
+        console.log(this.form.form.value);
         this.api.criar(this.form.form.value).subscribe((registro) => {
             // FIXME: Realizar ação após gravar o registro
             alert(`O registro com código ${registro.id} foi salvo com sucesso!`);
