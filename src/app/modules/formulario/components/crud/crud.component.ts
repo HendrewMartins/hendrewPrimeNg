@@ -122,7 +122,7 @@ export class CrudComponent implements OnInit, OnDestroy {
     }
 
     public voltarPesquisa() {
-        this.router.navigate(['pesquisa'], { relativeTo: this.route.parent });
+        this.router.navigate(['carregar'], { relativeTo: this.route.parent });
     }
 
     ngOnDestroy() {

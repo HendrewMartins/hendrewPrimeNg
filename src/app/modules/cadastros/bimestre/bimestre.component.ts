@@ -24,7 +24,6 @@ export class BimestreComponent implements OnInit {
   public urlAlunos: string;
   public urlBimestreAluno: string;
   public listaAlunos: Alunos[] = [];
-  public listaFiltradaAlunos: Alunos[] = [];
   public listaBimestre: Bimestre[] = [];
   public cont: number = 0;
   public dropBimestre!: DropBimestre[]; 
@@ -42,7 +41,7 @@ export class BimestreComponent implements OnInit {
     public route: ActivatedRoute,
     public router: Router
   ) {
-    this.urlAlunos = environment.api + '/api/alunos';
+    this.urlAlunos = environment.api + '/api/alunos/nome';
     this.urlBimestreAluno = environment.api + '/api/bimestre/aluno';
     this.dropBimestre = [
       {id: 1, bimestre: '1º Bimestre'},
@@ -50,10 +49,12 @@ export class BimestreComponent implements OnInit {
       {id: 3, bimestre: '3º Bimestre'},
       {id: 4, bimestre: '4º Bimestre'}
   ];
+    
     this.criarForm();
   }
 
   ngOnInit() {
+    this.carregar = true;
     this.subscription = this.route.data.subscribe(params => {
       // tslint:disable-next-line: no-string-literal
       const dados = params;
@@ -64,9 +65,8 @@ export class BimestreComponent implements OnInit {
         this.router.navigate(['pesquisa'], { relativeTo: this.route.parent });
 
       } else {
-
+        this.carregar = false;
         this.pesquisaCar = false;
-        this.buscarAlunos();
       }
     });
 
@@ -94,7 +94,7 @@ export class BimestreComponent implements OnInit {
         Validators.required
       ])],
     });
-
+    this.carregar = false;
   }
 
   public get bimestre() {
@@ -113,19 +113,18 @@ export class BimestreComponent implements OnInit {
     return this.form.get('id_Aluno') as FormGroup;
   }
 
-  public buscarTodosAlunos(): Observable<Alunos[]> {
-    return this.http.get<Alunos[]>(this.urlAlunos).pipe(map((item: Alunos[]) => {
+  public buscarTodosAlunos(value: any): Observable<Alunos[]> {
+    return this.http.get<Alunos[]>(this.urlAlunos+'/' + value).pipe(map((item: Alunos[]) => {
       return item;
     }));
 
   }
 
-  private buscarAlunos() {
+  private buscarAlunos(value: any) {
     // tslint:disable-next-line: deprecation
-    this.buscarTodosAlunos().subscribe((registro: Alunos[]) => {
+    this.buscarTodosAlunos(value).subscribe((registro: Alunos[]) => {
       this.listaAlunos = registro;
       console.log(registro);
-      this.carregar = false;
     }, error => {
       console.error(error);
       alert('Deu Erro na hora de Carregar Totos os itens');
@@ -145,7 +144,7 @@ export class BimestreComponent implements OnInit {
         this.listaBimestre = registro;
         console.log(registro);
         for (this.cont = 0; this.cont < this.listaBimestre.length; this.cont++) {
-          if ((this.listaBimestre[this.cont].id_Aluno === id_aluno)
+          if ((this.listaBimestre[this.cont].id_Aluno?.id === id_aluno)
             && (this.listaBimestre[this.cont].bimestre === id_bimestre)
             && (this.listaBimestre[this.cont].ano === ano_escol)) {
             alert('O Bimestre ' + id_bimestre + '° para o Ano de ' + ano_escol + ' já existe para o Aluno Selecionado');
@@ -166,38 +165,33 @@ export class BimestreComponent implements OnInit {
 
   public validaAno() {
     const id_aluno = this.form.controls['id_Aluno'].value;
+    const id = id_aluno.id;
     const id_bimestre = this.form.controls['bimestre'].value;
     const ano_escol = this.form.controls['ano'].value;
-    this.validaBimestreExistente(id_aluno, id_bimestre, ano_escol);
+    this.validaBimestreExistente(id, id_bimestre, ano_escol);
   }
 
-  public validaAluno(id_alunos: any) {
-    const id_aluno = id_alunos;
+  public validaAluno() {
+  
+    const id_aluno = this.form.controls['id_Aluno'].value;
+    const id = id_aluno.id;
     const id_bimestre = this.form.controls['bimestre'].value;
     const ano_escol = this.form.controls['ano'].value;
-    this.validaBimestreExistente(id_aluno, id_bimestre, ano_escol);
+    this.validaBimestreExistente(id, id_bimestre, ano_escol);
   }
 
   public validaBimestre(bimestre: any) {
     console.log(bimestre);
     const id_aluno = this.form.controls['id_Aluno'].value;
+    const id = id_aluno.id;
     const id_bimestre = bimestre;
     const ano_escol = this.form.controls['ano'].value;
-    this.validaBimestreExistente(id_aluno, id_bimestre, ano_escol);
+    this.validaBimestreExistente(id, id_bimestre, ano_escol);
   }
 
   public filtroAlunos(event: any) {
-    //in a real application, make a request to a remote url with the query and return filtered results, for demo we filter at client side
-    let filtered: any[] = [];
-    let query = event.query;
-    for (let i = 0; i < this.listaAlunos.length; i++) {
-      let aluno = this.listaAlunos[i];
-      if (aluno.nome!.toLowerCase().indexOf(query.toLowerCase()) == 0) {
-        filtered.push(aluno);
-      }
-    }
-
-    this.listaFiltradaAlunos = filtered;
+   let valor = event.query;
+    this.buscarAlunos(valor);
   }
 
 }

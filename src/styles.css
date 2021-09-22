@@ -479,6 +479,27 @@ margin-left: 10px;
     
 }
 
+.tipoDrop{
+    width: 100%;
+    display: block;
+    
+}
+
+.alunoautocomplete{
+    width: 100%;
+    display: block;
+    align-items: stretch;
+    
+}
+
+.ng-tns-c164-2 {
+    width: 88.9%;
+}
+
+.p-autocomplete-loader{
+    display: block;
+}
+
 .p-dropdown{
     width: 70%;
     border-radius: 10px;
@@ -514,7 +535,10 @@ small{
     margin-top: 20%;
 }
 
-
+.p-panel {
+    padding-bottom:2%;
+    border-radius: 10%;
+}
 
 
 

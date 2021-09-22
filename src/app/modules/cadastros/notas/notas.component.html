@@ -7,13 +7,12 @@
             <div fxLayout="column" fxLayoutGap="16px">
 
                 <div fxLayout="row" fxLayoutGap="16px">
-                    <div class="alunoDrop">
-                        <p-dropdown class="alunoDrop" formControlName="id_Aluno" [options]="listaAlunos"
-                            (onChange)="buscarBimestrePorAluno($event.value)"
-                            placeholder="Selecione o Aluno" optionLabel="nome" optionValue="id" [showClear]="true"
-                            aria-describedby="aluno">
-                        </p-dropdown>
+                    <div fxLayout="row" fxLayoutGap="22px">
+                        <div class="alunoautocomplete">
+                        <p-autoComplete class="alunoautocomplete" [showEmptyMessage]="true" formControlName="id_Aluno" [suggestions]="listaAlunos"
+                        placeholder="Digite o Nome do Aluno" (onSelect)="buscarBimestrePorAluno()" (completeMethod)="filtroAlunos($event)" field="nome" dataKey="id" minLength="2"></p-autoComplete>
                         <small id="aluno" class="p-invalid">{{id_aluno!.errors | erro}}</small>
+                       </div>
                     </div>
                 </div>
 

@@ -17,6 +17,7 @@ export class BoletimComponent implements OnInit {
     public router: Router) { }
 
   ngOnInit(): void {
+    this.carregar= true;
     this.subscription = this.route.data.subscribe(params => {
       // tslint:disable-next-line: no-string-literal
       const dados = params;

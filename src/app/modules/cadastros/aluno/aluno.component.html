@@ -3,28 +3,290 @@
     <form [formGroup]="form" #fr="ngForm">
 
         <app-crud [form]="fr" titulo="Alunos" [api]="service">
-            <div fxLayout="column" fxLayoutGap="16px">
-                <div fxLayout="row" fxLayoutGap="16px">
-                    <div class="p-field p-fluid">
-                        <span class="p-float-label">
-                            <input id="float-nome" class="p-invalid" aria-describedby="nome" type="text" pInputText
-                                formControlName="nome">
-                            <label for="float-nome">Nome</label>
-                            <small id="nome" class="p-invalid">{{nome!.errors | erro}}</small>
-                        </span>
+            <p-panel header="Identificação" styleClass="styleClass" [toggleable]="true">
+
+                <div fxLayout="column" fxLayoutGap="16px">
+                    <div fxLayout="row" fxLayoutGap="16px">
+                        <div class="p-field p-fluid">
+                            <span class="p-float-label">
+                                <input id="float-nome" class="p-invalid" aria-describedby="nome" type="text" pInputText
+                                    formControlName="nome">
+                                <label for="float-nome">Nome</label>
+                                <small id="nome" class="p-invalid">{{nome!.errors | erro}}</small>
+                            </span>
+                        </div>
+                    </div>
+                    <div fxLayout="row" fxLayoutGap="16px">
+                        <div class="p-fluid p-grid p-formgrid">
+
+                            <label for="icon">Data Nascimento</label>
+
+                            <p-calendar class="calendar" [inline]="false" formControlName="dt_nasc" [showIcon]="false"
+                                dateFormat="dd/mm/yy" inputId="icon" (onSelect)="mudaValor()" (onInput)="mudaValor()">
+                            </p-calendar>
+                            <small id="dt_nasc" class="p-invalid">{{dt_nasc!.errors | erro}}</small>
+                        </div>
                     </div>
                 </div>
-                <div fxLayout="row" fxLayoutGap="16px">
-                    <div class="p-fluid p-grid p-formgrid">
+            </p-panel>
 
-                        <label for="icon">Data Nascimento</label>
+            <p-panel header="Informações Adicionais" [style]="{width: 'width'}" styleClass="styleClass"
+                [toggleable]="true">
+                <p-tabView>
+                    <p-tabPanel header="Endereços">
+                        <p-card>
+                            <p-dialog header="Endereço" [(visible)]="displayModalEndereco" [modal]="true"
+                                [style]="{width: '50vw'}" [baseZIndex]="10000" [draggable]="false" [resizable]="false">
+                                <p-card styleClass="p-card-shadow">
+                                    <ng-template pTemplate="content">
+                                        <p-panel header=Informações>
+                                            <form [formGroup]="formEndereco">
+                                                <div fxLayout="column" fxLayoutGap="16px">
 
-                        <p-calendar class="calendar" [inline]="false" formControlName="dt_nasc" [showIcon]="false" dateFormat="dd/mm/yy" inputId="icon"
-                            (onSelect)="mudaValor()" (onInput)="mudaValor()"></p-calendar>
-                        <small id="dt_nasc" class="p-invalid">{{dt_nasc!.errors | erro}}</small>
-                    </div>
-                </div>
-            </div>
+                                                    <div fxLayout="row" fxLayoutGap="16px">
+                                                        <div class="tipoDrop">
+                                                            <p-dropdown class="tipoDrop" formControlName="tipo"
+                                                                [options]="dropEndereco"
+                                                                placeholder="Selecione o Tipo de Endereço"
+                                                                optionLabel="tipo" optionValue="id" [showClear]="true"
+                                                                aria-describedby="tipo">
+                                                            </p-dropdown>
+                                                            <small id="tipo" class="p-invalid">{{tipoendereco!.errors |
+                                                                erro}}</small>
+                                                        </div>
+                                                    </div>
+                                                    <div fxLayout="row" fxLayoutGap="16px">
+                                                        <div class="p-field p-fluid">
+                                                            <span class="p-float-label">
+                                                                <input id="float-logradouro" class="p-invalid"
+                                                                    aria-describedby="logradouro" type="text" pInputText
+                                                                    formControlName="logradouro">
+                                                                <label for="float-logradouro">Logradouro</label>
+                                                                <small id="logradouro"
+                                                                    class="p-invalid">{{logradouro!.errors |
+                                                                    erro}}</small>
+                                                            </span>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div fxLayout="row" fxLayoutGap="16px">
+                                                        <div class="p-field p-fluid">
+                                                            <span class="p-float-label">
+                                                                <input id="float-numero" class="p-invalid"
+                                                                    aria-describedby="numero" type="text" pInputText
+                                                                    formControlName="numero">
+                                                                <label for="float-numero">Numero</label>
+                                                                <small id="numero" class="p-invalid">{{numero!.errors |
+                                                                    erro}}</small>
+                                                            </span>
+                                                        </div>
+                                                        <div class="p-field p-fluid">
+                                                            <span class="p-float-label">
+                                                                <input id="float-cep" class="p-invalid"
+                                                                    aria-describedby="cep" type="text" pInputText
+                                                                    formControlName="cep">
+                                                                <label for="float-cep">CEP</label>
+                                                                <small id="cep" class="p-invalid">{{cep!.errors |
+                                                                    erro}}</small>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+
+                                                    <div fxLayout="row" fxLayoutGap="16px">
+                                                        <div class="p-field p-fluid">
+                                                            <span class="p-float-label">
+                                                                <input id="float-bairro" class="p-invalid"
+                                                                    aria-describedby="bairro" type="text" pInputText
+                                                                    formControlName="bairro">
+                                                                <label for="float-bairro">Bairro</label>
+                                                                <small id="bairro" class="p-invalid">{{bairro!.errors |
+                                                                    erro}}</small>
+                                                            </span>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div fxLayout="row" fxLayoutGap="16px">
+                                                        <div class="p-field p-fluid">
+                                                            <span class="p-float-label">
+                                                                <input id="float-complemento" class="p-invalid"
+                                                                    aria-describedby="complemento" type="text"
+                                                                    pInputText formControlName="complemento">
+                                                                <label for="float-complemento">Complemento</label>
+                                                                <small id="complemento"
+                                                                    class="p-invalid">{{complemento!.errors |
+                                                                    erro}}</small>
+                                                            </span>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </p-panel>
+                                    </ng-template>
+                                    <ng-template pTemplate="footer">
+                                        <button pButton pRipple type="button" label="Voltar"
+                                            (click)="displayModalEndereco=false"
+                                            class="p-button-outlined p-button-secondary"></button>
+                                        <button (click)="limparEndereco()" pButton pRipple type="button" label="Limpar"
+                                            class="p-button-outlined p-button-info"></button>
+                                        <button pButton pRipple type="button" *ngIf="false" label="Deletar"
+                                            class="p-button-outlined p-button-danger"></button>
+                                        <p-button icon="pi pi-check" type="submit" (click)="gravarEndereco()"
+                                            label="Ok" class="p-button-text"></p-button>
+                                    </ng-template>
+                                </p-card>
+                            </p-dialog>
+                            <p-table #table dataKey="id" [lazy]="true" [showCurrentPageReport]="false" [paginator]="false"
+                                [rows]="5" [totalRecords]="totalEndereco" [loading]="loadingEndereco"
+                                styleClass="p-datatable-sm " [columns]="colunasEndereco" [value]="listEndereco"
+                                responsiveLayout="scroll">
+                                <ng-template pTemplate="caption">
+                                    <div class="p-d-flex">
+                                        <button pButton pRipple type="button" icon="pi pi-pencil" label="Novo"
+                                            (click)="showModalDialogEndereco()" class="p-button-raised"></button>
+                                    </div>
+                                </ng-template>
+
+                                <ng-template pTemplate="header" let-columns>
+                                    <tr>
+                                        <th *ngFor="let col of columns" [pSortableColumn]=[col.nome]>
+                                            {{col.label}}
+                                        </th>
+                                        <th>
+                                            Ações
+                                        </th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-dataLiz let-columns="columns">
+                                    <tr>
+                                        <td *ngFor="let col of columns">
+                                            {{dataLiz[col.nome]}}
+                                        </td>
+                                        <td>
+                                            <p-button icon="pi pi-trash" (click)="removerEndereco(dataLiz.sequencia)" styleClass="p-button-danger"></p-button>
+                                        </td>
+                                    </tr>
+                                </ng-template>
+
+
+                            </p-table>
+                        </p-card>
+                    </p-tabPanel>
+                    <p-tabPanel header="Telefones">
+                        <p-card>
+                            <p-dialog header="Telefone" [(visible)]="displayModalTelefone" [modal]="true"
+                                [style]="{width: '50vw'}" [baseZIndex]="10000" [draggable]="false" [resizable]="false">
+                                <p-card styleClass="p-card-shadow">
+                                    <ng-template pTemplate="content">
+                                        <p-panel header=Informações>
+                                            <form [formGroup]="formTelefone">
+                                                <div fxLayout="column" fxLayoutGap="16px">
+                                                    <div fxLayout="row" fxLayoutGap="16px">
+                                                        <div class="tipoDrop">
+                                                            <p-dropdown class="tipoDrop" formControlName="tipo"
+                                                                [options]="dropTelefone"
+                                                                placeholder="Selecione o Tipo de Telefone"
+                                                                optionLabel="tipo" optionValue="id" [showClear]="true"
+                                                                aria-describedby="tipo"
+                                                                (onChange)="validaContato($event.value)">
+                                                            </p-dropdown>
+                                                            <small id="tipo" class="p-invalid">{{tipotelefone!.errors |
+                                                                erro}}</small>
+                                                        </div>
+                                                    </div>
+
+                                                    <div fxLayout="row" fxLayoutGap="16px">
+                                                        <div class="p-field p-fluid">
+                                                            <span class="p-float-label">
+                                                                <input id="float-telefone" class="p-invalid"
+                                                                    aria-describedby="telefone" type="text"
+                                                                    pInputText formControlName="telefone">
+                                                                <label for="float-telefone">Telefone</label>
+                                                                <small id="telefone"
+                                                                    class="p-invalid">{{telefone!.errors |
+                                                                    erro}}</small>
+                                                            </span>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div fxLayout="row" fxLayoutGap="16px" *ngIf="sitContato">
+                                                        <div class="p-field p-fluid">
+                                                            <span class="p-float-label">
+                                                                <input id="float-contato" class="p-invalid"
+                                                                    aria-describedby="contato" type="text"
+                                                                    pInputText formControlName="contato">
+                                                                <label for="float-contato">Contato</label>
+                                                                <small id="contato"
+                                                                    class="p-invalid">{{contato!.errors |
+                                                                    erro}}</small>
+                                                            </span>
+                                                        </div>
+
+                                                    </div>
+
+
+                                                </div>
+                                            </form>
+                                        </p-panel>
+                                    </ng-template>
+                                </p-card>
+
+                                <ng-template pTemplate="footer">
+                                    <button pButton pRipple type="button" label="Voltar"
+                                        (click)="displayModalTelefone=false"
+                                        class="p-button-outlined p-button-secondary"></button>
+                                    <button (click)="limparTelefone()" pButton pRipple type="button" label="Limpar"
+                                        class="p-button-outlined p-button-info"></button>
+                                    <button pButton pRipple type="button" *ngIf="false" label="Deletar"
+                                        class="p-button-outlined p-button-danger"></button>
+                                    <p-button icon="pi pi-check" type="submit" (click)="gravarTelefone()"
+                                        label="Ok" class="p-button-text"></p-button>
+                                </ng-template>
+                            </p-dialog>
+                            <p-table #table dataKey="id" [lazy]="true" [showCurrentPageReport]="false" [paginator]="false"
+                                [rows]="5" [totalRecords]="totalTelefone" [loading]="loadingTelefone"
+                                styleClass="p-datatable-sm " [columns]="colunasTelefone" [value]="listTelefone"
+                                responsiveLayout="scroll">
+                                <ng-template pTemplate="caption">
+                                    <div class="p-d-flex">
+                                        <button pButton pRipple type="button" icon="pi pi-pencil" label="Novo"
+                                            (click)="showModalDialogTelefone()" class="p-button-raised"></button>
+                                    </div>
+                                </ng-template>
+
+                                <ng-template pTemplate="header" let-columns>
+                                    <tr>
+                                        <th *ngFor="let col of columns" [pSortableColumn]=[col.nome]>
+                                            {{col.label}}
+                                        </th>
+                                        <th>
+                                            Ações
+                                        </th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-dataLiz let-columns="columns">
+                                    <tr>
+                                        <td *ngFor="let col of columns">
+                                            {{dataLiz[col.nome]}}
+                                        </td>
+                                        <td>
+                                            <p-button icon="pi pi-trash" (click)="removerTelefone(dataLiz.sequencia)" styleClass="p-button-danger"></p-button>
+                                        </td>
+                                    </tr>
+                                </ng-template>
+
+
+                            </p-table>
+                        </p-card>
+
+                    </p-tabPanel>
+                </p-tabView>
+
+            </p-panel>
+
         </app-crud>
     </form>
 </div>

@@ -26,7 +26,7 @@
                     </div>
                     <div class="p-field p-fluid">
                         <span class="p-float-label">
-                            <input id="float-faltas" type="number" class="p-invalid" aria-describedby="faltas"
+                            <input id="float-faltas"  type="number" class="p-invalid" aria-describedby="faltas"
                                 pInputText formControlName="faltas">
                             <label for="float-faltas">Faltas</label>
                             <small id="faltas" class="p-invalid">{{faltas!.errors | erro}}</small>
@@ -35,21 +35,13 @@
                 </div>
 
                 <div fxLayout="row" fxLayoutGap="22px">
-                    <p-autoComplete formControlName="id_Aluno" [suggestions]="listaFiltradaAlunos"
-                    placeholder="Selecione o Aluno" (completeMethod)="filtroAlunos($event)" field="nome" dataKey="id" minLength="2"></p-autoComplete>
-                        
-                    <div class="alunoDrop">
-                        
-                         <p-dropdown class="alunoDrop" formControlName="id_Aluno" [options]="listaAlunos"
-                           (onChange)="validaAluno($event.value)"
-                            placeholder="Selecione o Aluno" optionLabel="nome" optionValue="id" [showClear]="true"
-                            aria-describedby="aluno">
-                        </p-dropdown>
-                        <small id="aluno" class="p-invalid">{{id_Aluno!.errors | erro}}</small>
-                    </div>
-
+                    <div class="alunoautocomplete">
+                    <p-autoComplete class="alunoautocomplete" [showEmptyMessage]="true" formControlName="id_Aluno" [suggestions]="listaAlunos"
+                    placeholder="Digite o Nome do Aluno" (onSelect)="validaAluno()" (completeMethod)="filtroAlunos($event)" field="nome" dataKey="id" minLength="2"></p-autoComplete>
+                    <small id="aluno" class="p-invalid">{{id_Aluno!.errors | erro}}</small>
+                   </div>
                 </div>
-
+                
             </div>
         </app-crud>
     </form>

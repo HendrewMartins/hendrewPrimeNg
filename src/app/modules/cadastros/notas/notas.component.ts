@@ -29,7 +29,7 @@ export class NotasComponent implements OnInit {
   public cont_not: number = 0;
   public contAv: number = 0;
   public contAv_not: number = 0;
-  public notas: Notas | undefined;
+  public notas!: Notas;
 
   public listaAvaliacao: Avaliacao[] = [];
   public listaAvaliacaoAux: Avaliacao[] = [];
@@ -64,7 +64,7 @@ export class NotasComponent implements OnInit {
 
   ) {
     this.urlAvaliacao = environment.api + '/api/avaliacao';
-    this.urlAlunos = environment.api + '/api/alunos';
+    this.urlAlunos = environment.api + '/api/alunos/nome';
     this.urlNotaAluno = environment.api + '/api/bimestre/nota/aluno';
     this.urlLerNota = environment.api + '/api/nota';
     this.criarForm();
@@ -73,6 +73,7 @@ export class NotasComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.carregar= true;
     this.subscription = this.route.data.subscribe(params => {
       // tslint:disable-next-line: no-string-literal
       const dados = params;
@@ -86,7 +87,6 @@ export class NotasComponent implements OnInit {
 
         this.pesquisaCar = false;
         this.buscarAvaliacao(0);
-        this.buscarAlunos();
         this.subscription = this.route.params.subscribe(params => {
           // tslint:disable-next-line: no-string-literal
           this.leredit(params['id']);
@@ -124,16 +124,17 @@ export class NotasComponent implements OnInit {
     return this.form.get('nota') as FormGroup;
   }
 
-  private leredit(id: number) {
-    if (id) {
-      this.registroId = id;
+  private leredit(value: number) {
+    if (value) {
+      this.registroId = value;
       // tslint:disable-next-line: deprecation
-      this.ler(id).subscribe(registro => {
+      this.ler(value).subscribe(registro => {
         if (registro) {
           this.notas = registro;
-          const descr = this.notas.id_Aluno;
-          console.log(descr);
-          this.buscarTodosBimestrePorAluno(descr).subscribe((registro1: Bimestre[]) => {
+          const aluno = this.notas.id_Aluno?.id;
+          const id = aluno;
+          console.log(id);
+          this.buscarTodosBimestrePorAluno(id).subscribe((registro1: Bimestre[]) => {
             this.listaBimestre = registro1;
             console.log('Esse' + registro1);
           }, error => {
@@ -143,7 +144,7 @@ export class NotasComponent implements OnInit {
         }
       }, error => {
         console.error(error);
-        alert('Não foi possível encontrar o registro de Aluno para Bimestre' + id);
+        alert('Não foi possível encontrar o registro de Aluno para Bimestre' + value);
       });
     }
   }
@@ -167,6 +168,7 @@ export class NotasComponent implements OnInit {
     if (descr === 0) {
       this.buscarTodosAvaliacao().subscribe((registro: Avaliacao[]) => {
         this.listaAvaliacao = registro;
+        this.carregar = false;
         console.log(registro);
       }, error => {
         console.error(error);
@@ -196,6 +198,7 @@ export class NotasComponent implements OnInit {
               this.listaAvaliacao.push(this.avaliacao);
             }
           }
+          this.carregar = false;
         }, error => {
           console.error(error);
           alert('Deu Erro na hora de validar Avaliação');
@@ -211,18 +214,18 @@ export class NotasComponent implements OnInit {
 
 
 
-  public buscarTodosAlunos(): Observable<Alunos[]> {
-    return this.http.get<Alunos[]>(this.urlAlunos).pipe(map((item: Alunos[]) => {
+  public buscarTodosAlunos(value: any): Observable<Alunos[]> {
+    return this.http.get<Alunos[]>(this.urlAlunos+'/'+ value).pipe(map((item: Alunos[]) => {
       return item;
     }));
 
   }
 
-  private buscarAlunos() {
+  private buscarAlunos(value: any) {
     // tslint:disable-next-line: deprecation
-    this.buscarTodosAlunos().subscribe((registro: Alunos[]) => {
+    this.buscarTodosAlunos(value).subscribe((registro: Alunos[]) => {
       this.listaAlunos = registro;
-      this.carregar = false;
+      
       console.log(registro);
     }, error => {
       console.error(error);
@@ -242,11 +245,15 @@ export class NotasComponent implements OnInit {
     }));
   }
 
-  public buscarBimestrePorAluno(id: number) {
+  public filtroAlunos(event: any) {
+    let valor = event.query;
+     this.buscarAlunos(valor);
+   }
+  public buscarBimestrePorAluno() {
     // tslint:disable-next-line: deprecation
-    const descr = id;
+    const descr = this.form.controls['id_Aluno'].value;
     console.log(descr);
-    this.buscarTodosBimestrePorAluno(descr).subscribe((registro: Bimestre[]) => {
+    this.buscarTodosBimestrePorAluno(descr.id).subscribe((registro: Bimestre[]) => {
       this.listaBimestreAux = registro;
       console.log(registro);
       if (this.listaBimestreAux.length === 0) {

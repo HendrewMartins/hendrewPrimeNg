@@ -18,7 +18,9 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 import { MessagesModule } from 'primeng/messages';
 import { DropdownModule } from 'primeng/dropdown';
 import { DialogModule } from 'primeng/dialog';
-import { AutoCompleteModule } from 'primeng/autocomplete'
+import { AutoCompleteModule } from 'primeng/autocomplete';
+import { MenuModule } from 'primeng/menu';
+import { TabViewModule } from 'primeng/tabview';
 
 
 @NgModule({
@@ -41,7 +43,9 @@ import { AutoCompleteModule } from 'primeng/autocomplete'
         InputTextareaModule,
         MessagesModule,
         DialogModule,
-        AutoCompleteModule
+        AutoCompleteModule,
+        MenuModule,
+        TabViewModule
     ],
     exports: [
         InputTextModule,
@@ -63,7 +67,9 @@ import { AutoCompleteModule } from 'primeng/autocomplete'
         MessagesModule,
         DropdownModule,
         DialogModule,
-        AutoCompleteModule
+        AutoCompleteModule,
+        MenuModule,
+        TabViewModule
     ],
     declarations: [
   ]
