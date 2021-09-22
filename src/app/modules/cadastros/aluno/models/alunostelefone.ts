@@ -1,6 +1,6 @@
 export interface AlunosTelefone{
     sequencia: number;
     tipo: string;
-    telefone: string;
+    numero: string;
     contato: string;
 }

@@ -1,23 +1,23 @@
 <p-progressSpinner class="progress" *ngIf="carregar"></p-progressSpinner>
 <div class="card" *ngIf="!carregar">
-    <p-table #table dataKey="id" [lazy]="true" [showCurrentPageReport]="true" 
-        (onLazyLoad)="loadCustomers($event)" [paginator]="true" [rows]="5"
-        [totalRecords]="totalRecords" [loading]="loading" styleClass="p-datatable-sm " 
+    <p-table #table dataKey="id" [lazy]="true" [showCurrentPageReport]="true" (onLazyLoad)="loadCustomers($event)"
+        [paginator]="true" [rows]="5" [totalRecords]="totalRecords" [loading]="loading" styleClass="p-datatable-sm "
         [columns]="colunas" [value]="dataLiz" responsiveLayout="scroll"
         currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
         [globalFilterFields]="['id','nome']">
         <ng-template pTemplate="caption" *ngIf=visuInfo>
-                        <div class="p-d-flex">
+            <div class="p-d-flex">
                 <span class="p-input-icon-left p-ml-auto">
                     <i class="pi pi-search"></i>
-                    <input pInputText type="text" (input)="table.filterGlobal($event.target.value, 'contains')" placeholder="Digite ID ou Nome" />
+                    <input pInputText type="text" (input)="table.filterGlobal($event.target.value, 'contains')"
+                        placeholder="Digite ID ou Nome" />
                 </span>
             </div>
         </ng-template>
 
         <ng-template pTemplate="header" let-columns>
             <tr>
-                <th *ngFor="let col of columns" [pSortableColumn]=[col.nome] >
+                <th *ngFor="let col of columns" [pSortableColumn]=[col.nome]>
                     {{col.label}}
                     <p-columnFilter type="text" field={{col.nome}} display="menu" *ngIf=visuInfo></p-columnFilter>
                 </th>
@@ -37,7 +37,6 @@
                 <td>
                     <p-button icon="pi pi-pencil" styleClass="p-button-success" [style]="{'margin-right': '.5em'}"
                         (click)="editar(dataLiz.id)"></p-button>
-                    <p-button icon="pi pi-trash" styleClass="p-button-danger" (click)="excluir(dataLiz.id)"></p-button>
                 </td>
                 <td>
                     <p-button icon="pi pi-info-circle" styleClass="p-button-help" *ngIf=visuInfo
@@ -65,6 +64,22 @@
         <p>
             <b>Data Nascimento :</b> {{dt_nasc}}
         </p>
+        <p>
+            <b>Nome da Mãe :</b> {{nm_mae}}
+        </p>
+        <p>
+            <b>Nome do Pai :</b> {{nm_pai}}
+        </p>
+        <p>
+            <b>Matricula :</b> {{matricula}}
+        </p>
+        <p>
+            <b>RG :</b> {{rg_aluno}}
+        </p>
+        <p>
+            <b>CPF :</b> {{cpf}}
+        </p>
+
     </p-panel>
     <ng-template pTemplate="footer">
         <p-button icon="pi pi-check" (click)="displayModal=false" label="Ok" class="p-button-text"></p-button>

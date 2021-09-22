@@ -2,12 +2,15 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { AlunoService } from 'src/app/services/aluno.service';
+import { environment } from 'src/environments/environment';
 import { ColunaConfig } from '../../pesquisa/models/coluna-config';
 import { PesquisaConfig } from '../../pesquisa/models/pesquisa-config';
 import { PESQUISA_ALUNO_ENDERECO_CONFIG } from './core/aluno-pesquisa-endereco-config';
 import { PESQUISA_ALUNO_TELEFONE_CONFIG } from './core/aluno-pesquisa-telefone-config';
+import { Alunos } from './models/alunos';
 import { AlunosEndereco } from './models/alunosendereco';
 import { AlunosTelefone } from './models/alunostelefone';
 import { DropEndereco } from './models/dropTipoEndereco';
@@ -29,8 +32,8 @@ export class AlunoComponent implements OnInit {
   public carregar: boolean = true;
   public pesquisaCar: boolean = true;
   private subscription!: Subscription;
-  public listEndereco: AlunosEndereco[] = [];
-  public listTelefone: AlunosTelefone[] = [];
+  public listEndereco: AlunosEndereco[]  = [];
+  public listTelefone: AlunosTelefone[]  = [];
   public totalEndereco!: number;
   public totalTelefone!: number;
   public loadingEndereco!: boolean;
@@ -42,6 +45,7 @@ export class AlunoComponent implements OnInit {
   public dropEndereco!: DropEndereco[];
   public dropTelefone!: DropTelefone[];
   public sitContato!: boolean;
+  public urlAluno!: string;
 
   constructor(
     private fb: FormBuilder,
@@ -50,6 +54,7 @@ export class AlunoComponent implements OnInit {
     public route: ActivatedRoute,
     public router: Router
   ) {
+    this.urlAluno = environment.api + '/api/alunos';
     this.criarForm();
 
     this.criarFormEndereco();
@@ -77,6 +82,11 @@ export class AlunoComponent implements OnInit {
 
   ngOnInit(): void {
     this.carregar = true;
+    this.subscription = this.route.params.subscribe(params => {
+      // tslint:disable-next-line: no-string-literal
+      this.leredit(params['id']);
+    });
+
     this.subscription = this.route.data.subscribe(params => {
       // tslint:disable-next-line: no-string-literal
       const dados = params;
@@ -86,14 +96,36 @@ export class AlunoComponent implements OnInit {
         this.pesquisaCar = true;
         this.router.navigate(['pesquisa'], { relativeTo: this.route.parent });
       } else {
-
-        this.carregar = false;
         this.pesquisaCar = false;
-
+        this.carregar = false;
       }
     });
     this.loadingEndereco = false;
     this.loadingTelefone = false;
+
+
+  }
+
+  public leredit(value: number) {
+    if (value) {
+      this.ler(value).subscribe(registro => {
+        const alunoDados = registro;
+        console.log(alunoDados);
+        this.listEndereco = alunoDados.alunos_endereco!;
+        this.listTelefone = alunoDados.alunos_telefone!;
+      }, error => {
+        console.error(error);
+      });
+    } else {
+      this.listEndereco = [];
+      this.listTelefone = [];
+    }
+  }
+
+  public ler(id: number): Observable<Alunos> {
+    return this.http.get<Alunos>(this.urlAluno + '/id/' + id).pipe(map((item: any) => {
+      return item;
+    }));
   }
 
   public showModalDialogEndereco() {
@@ -141,6 +173,33 @@ export class AlunoComponent implements OnInit {
       dt_nasc: [null, Validators.compose([
         Validators.required
       ])],
+      nm_mae: [null, Validators.compose([
+        Validators.required,
+        Validators.minLength(1),
+        Validators.maxLength(100)
+      ])],
+      matricula: [null, Validators.compose([
+        Validators.required,
+        Validators.minLength(1),
+        Validators.maxLength(15)
+      ])],
+      nm_pai: [null, Validators.compose([
+        Validators.required,
+        Validators.minLength(1),
+        Validators.maxLength(100)
+      ])],
+      rg_aluno: [null, Validators.compose([
+        Validators.required,
+        Validators.minLength(1),
+        Validators.maxLength(20)
+      ])],
+      cpf: [null, Validators.compose([
+        Validators.required,
+        Validators.minLength(1),
+        Validators.maxLength(15)
+      ])],
+      alunos_endereco: [null],
+      alunos_telefone: [null],
     });
   }
 
@@ -156,7 +215,7 @@ export class AlunoComponent implements OnInit {
         Validators.maxLength(100)
       ])],
 
-      telefone: [null, Validators.compose([
+      numero: [null, Validators.compose([
         Validators.required,
         Validators.minLength(1),
         Validators.maxLength(100)
@@ -211,8 +270,8 @@ export class AlunoComponent implements OnInit {
     return this.formTelefone.get('tipo') as FormGroup;
   }
 
-  public get telefone() {
-    return this.formTelefone.get('telefone') as FormGroup;
+  public get numerotel() {
+    return this.formTelefone.get('numero') as FormGroup;
   }
 
   public get contato() {
@@ -252,8 +311,24 @@ export class AlunoComponent implements OnInit {
     return this.form.get('dt_nasc') as FormGroup;
   }
 
-  public get valor() {
-    return this.form.get('dt_nasc')?.value;
+  public get nm_mae() {
+    return this.form.get('nm_mae') as FormGroup;
+  }
+
+  public get nm_pai() {
+    return this.form.get('nm_pai') as FormGroup;
+  }
+
+  public get matricula() {
+    return this.form.get('matricula') as FormGroup;
+  }
+
+  public get rg_aluno() {
+    return this.form.get('rg_aluno') as FormGroup;
+  }
+
+  public get cpf() {
+    return this.form.get('cpf') as FormGroup;
   }
 
   public mudaValor() {
@@ -301,6 +376,11 @@ export class AlunoComponent implements OnInit {
       console.log(end);
       endereco = end;
       this.listEndereco.push(endereco);
+
+      this.form.patchValue({
+        alunos_endereco: this.listEndereco
+      });
+
       this.formEndereco.reset();
     } else {
       alert('Ainda existe campos Obrigatorios');
@@ -315,6 +395,11 @@ export class AlunoComponent implements OnInit {
       console.log(fone);
       telefone = fone;
       this.listTelefone.push(telefone);
+
+      this.form.patchValue({
+        alunos_telefone: this.listTelefone
+      });
+
       this.formTelefone.reset();
     } else {
       alert('Ainda existe campos Obrigatorios');
@@ -328,6 +413,11 @@ export class AlunoComponent implements OnInit {
     if (index > -1) {
       this.listEndereco.splice(index, 1);
       this.ajustaSequenciaEndereco();
+
+      this.form.patchValue({
+        alunos_endereco: this.listEndereco
+      });
+
     }
   }
 
@@ -348,6 +438,11 @@ export class AlunoComponent implements OnInit {
     if (index > -1) {
       this.listTelefone.splice(index, 1);
       this.ajustaSequenciaTelefone();
+
+      this.form.patchValue({
+        alunos_telefone: this.listTelefone
+      });
+
     }
   }
 

@@ -16,6 +16,58 @@
                             </span>
                         </div>
                     </div>
+
+                    <div fxLayout="row" fxLayoutGap="16px">
+                        <div class="p-field p-fluid">
+                            <span class="p-float-label">
+                                <input id="float-nm_mae" class="p-invalid" aria-describedby="nm_mae" type="text" pInputText
+                                    formControlName="nm_mae">
+                                <label for="float-nm_mae">Nome da Mãe</label>
+                                <small id="nm_mae" class="p-invalid">{{nm_mae!.errors | erro}}</small>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div fxLayout="row" fxLayoutGap="16px">
+                        <div class="p-field p-fluid">
+                            <span class="p-float-label">
+                                <input id="float-nm_pai" class="p-invalid" aria-describedby="nm_pai" type="text" pInputText
+                                    formControlName="nm_pai">
+                                <label for="float-nm_pai">Nome do Pai</label>
+                                <small id="nm_pai" class="p-invalid">{{nm_pai!.errors | erro}}</small>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div fxLayout="row" fxLayoutGap="16px">
+                        <div class="p-field p-fluid">
+                            <span class="p-float-label">
+                                <input id="float-rg_aluno" class="p-invalid" aria-describedby="rg_aluno" type="text" pInputText
+                                    formControlName="rg_aluno">
+                                <label for="float-rg_aluno">RG</label>
+                                <small id="rg_aluno" class="p-invalid">{{rg_aluno!.errors | erro}}</small>
+                            </span>
+                        </div>
+
+                        <div class="p-field p-fluid">
+                            <span class="p-float-label">
+                                <input id="float-cpf" class="p-invalid" aria-describedby="cpf" type="text" pInputText
+                                    formControlName="cpf">
+                                <label for="float-cpf">CPF</label>
+                                <small id="cpf" class="p-invalid">{{cpf!.errors | erro}}</small>
+                            </span>
+                        </div>
+
+                        <div class="p-field p-fluid">
+                            <span class="p-float-label">
+                                <input id="float-matricula" class="p-invalid" aria-describedby="matricula" type="text" pInputText
+                                    formControlName="matricula">
+                                <label for="float-matricula">Matricula</label>
+                                <small id="matricula" class="p-invalid">{{matricula!.errors | erro}}</small>
+                            </span>
+                        </div>
+                    </div>
+
                     <div fxLayout="row" fxLayoutGap="16px">
                         <div class="p-fluid p-grid p-formgrid">
 
@@ -26,6 +78,7 @@
                             </p-calendar>
                             <small id="dt_nasc" class="p-invalid">{{dt_nasc!.errors | erro}}</small>
                         </div>
+
                     </div>
                 </div>
             </p-panel>
@@ -200,12 +253,12 @@
                                                     <div fxLayout="row" fxLayoutGap="16px">
                                                         <div class="p-field p-fluid">
                                                             <span class="p-float-label">
-                                                                <input id="float-telefone" class="p-invalid"
-                                                                    aria-describedby="telefone" type="text"
-                                                                    pInputText formControlName="telefone">
-                                                                <label for="float-telefone">Telefone</label>
-                                                                <small id="telefone"
-                                                                    class="p-invalid">{{telefone!.errors |
+                                                                <input id="float-numero" class="p-invalid"
+                                                                    aria-describedby="numero" type="text"
+                                                                    pInputText formControlName="numero">
+                                                                <label for="float-numero">Telefone</label>
+                                                                <small id="numero"
+                                                                    class="p-invalid">{{numerotel!.errors |
                                                                     erro}}</small>
                                                             </span>
                                                         </div>

@@ -25,16 +25,6 @@ export const PESQUISA_ALUNO_ENDERECO_CONFIG: PesquisaConfig = {
             nome: 'bairro'
         },
 
-        {
-            label: 'CEP',
-            nome: 'cep'
-        },
-
-        {
-            label: 'Complemento',
-            nome: 'complemento'
-        },
-
     ],
     pathApi: 'enderecoaluno'
 };

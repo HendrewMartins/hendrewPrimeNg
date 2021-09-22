@@ -12,7 +12,7 @@ import { Alunos } from '../cadastros/aluno/models/alunos';
     templateUrl: 'pesquisa.component.html',
     providers: [PesquisaComponent, MessageService],
     styleUrls: ['pesquisa.component.css'],
-    
+
 })
 
 export class PesquisaComponent implements OnInit {
@@ -31,7 +31,7 @@ export class PesquisaComponent implements OnInit {
     public visuInfo!: boolean;
 
     public totalRecords!: number;
- 
+
     public loading!: boolean;
 
     public details!: Alunos;
@@ -39,8 +39,13 @@ export class PesquisaComponent implements OnInit {
     public carregar: boolean = true;
 
     public id: number = 0;
-    public nome: string ='';
+    public nome: string = '';
     public dt_nasc: string = '';
+    public nm_mae: string = '';
+    public nm_pai: string = '';
+    public matricula: string = '';
+    public rg_aluno: string = '';
+    public cpf: string = '';
 
     constructor(
         private messageService: MessageService,
@@ -52,15 +57,15 @@ export class PesquisaComponent implements OnInit {
         this.colunas = config.colunas;
         this.dataSource = config.registros;
         this.totalRecords = this.dataSource.length;
-        if(config.pathApi === 'alunos'){
+        if (config.pathApi === 'alunos') {
             this.visuInfo = true;
-        }else{
+        } else {
             this.visuInfo = false;
         }
         console.log(this.visuInfo);
-       
-        
-         
+
+
+
     }
 
     ngOnInit() {
@@ -69,11 +74,11 @@ export class PesquisaComponent implements OnInit {
     }
 
     update() {
-        this.messageService.add({severity:'success', summary:'Success', detail:'Data Updated'});
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Data Updated' });
     }
 
     delete() {
-        this.messageService.add({severity:'warn', summary:'Delete', detail:'Data Deleted'});
+        this.messageService.add({ severity: 'warn', summary: 'Delete', detail: 'Data Deleted' });
     }
 
     public editar(value: any) {
@@ -93,10 +98,15 @@ export class PesquisaComponent implements OnInit {
         this.dt_nasc = value.dt_nasc;
         this.nome = value.nome;
         this.id = value.id;
+        this.nm_mae = value.nm_mae;
+        this.nm_pai = value.nm_pai;
+        this.matricula = value.matricula;
+        this.cpf = value.cpf;
+        this.rg_aluno = value.rg_aluno;
         this.displayModal = true;
     }
 
-    loadCustomers(event: LazyLoadEvent) {  
+    loadCustomers(event: LazyLoadEvent) {
         this.loading = true;
 
         //in a real application, make a remote request to load data using state metadata from event

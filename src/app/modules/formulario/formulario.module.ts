@@ -6,6 +6,7 @@ import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { CrudComponent } from './components/crud/crud.component';
 import { PrimeNgModule } from '../primeng.module';
+import { ProgressBarModule } from 'primeng/progressbar'
 
 
 
@@ -16,7 +17,8 @@ import { PrimeNgModule } from '../primeng.module';
     PrimeNgModule,
     ReactiveFormsModule,
     FlexLayoutModule,
-    FormsModule
+    FormsModule,
+    ProgressBarModule
   ],
   exports: [
     ErroPipe,
@@ -24,7 +26,8 @@ import { PrimeNgModule } from '../primeng.module';
     PrimeNgModule,
     ReactiveFormsModule,
     FlexLayoutModule,
-    FormsModule
+    FormsModule,
+    ProgressBarModule
   ]
 })
 export class FormularioModule { }

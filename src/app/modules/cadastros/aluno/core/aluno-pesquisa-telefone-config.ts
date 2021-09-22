@@ -12,7 +12,7 @@ export const PESQUISA_ALUNO_TELEFONE_CONFIG: PesquisaConfig = {
         },
         {
             label: 'Telefone',
-            nome: 'telefone'
+            nome: 'numero'
         },
 
         {

@@ -20,6 +20,8 @@ export class CrudComponent implements OnInit, OnDestroy {
 
     public registroId: number = 0;
 
+    public validProgress!: boolean;
+
     private subscription!: Subscription;
 
     constructor(
@@ -44,11 +46,13 @@ export class CrudComponent implements OnInit, OnDestroy {
 
     private ler(id: number) {
         if (id) {
+            this.validProgress = true;
             this.registroId = id;
             // tslint:disable-next-line: deprecation
             this.api.ler(id).subscribe(registro => {
                 if (registro) {
                     this.form.form.patchValue(registro);
+                    this.validProgress = false;
                 }
             }, error => {
                 console.error(error);
@@ -61,8 +65,10 @@ export class CrudComponent implements OnInit, OnDestroy {
     public salvar() {
         if (this.form.valid) {
             if (this.registroId) {
+                this.validProgress = true;
                 this.alterar();
             } else {
+                this.validProgress = true;
                 this.criar();
             }
         }
@@ -76,7 +82,8 @@ export class CrudComponent implements OnInit, OnDestroy {
         this.api.alterar(value, this.registroId).subscribe(registro => {
             if (registro) {
                 this.form.form.patchValue(registro);
-                alert(`Registro ${this.registroId} foi salvo com sucesso`);
+                this.validProgress = false;
+                alert(`Registro ${this.registroId} foi alterado com sucesso`);
             }
         }, error => {
             console.error(error);
@@ -89,8 +96,9 @@ export class CrudComponent implements OnInit, OnDestroy {
         console.log(this.form.form.value);
         this.api.criar(this.form.form.value).subscribe((registro) => {
             // FIXME: Realizar ação após gravar o registro
+            this.validProgress = false;
             alert(`O registro com código ${registro.id} foi salvo com sucesso!`);
-            this.limpar();
+            this.retornarPesquisa();
 
         }, error => {
             console.error(error);
@@ -110,11 +118,17 @@ export class CrudComponent implements OnInit, OnDestroy {
         this.router.navigate(['novo'], { relativeTo: this.route.parent });
     }
 
+    private retornarPesquisa() {
+        this.router.navigate(['carregar'], { relativeTo: this.route.parent });
+    }
+
     public deletar() {
         // tslint:disable-next-line: deprecation
+        this.validProgress = true;
         this.api.deletar(this.registroId).subscribe(() => {
+            this.validProgress = false;
             alert('Registro deletado com sucesso!');
-            this.limpar();
+            this.retornarPesquisa();
         }, error => {
             console.error(error);
             alert('Ocorreu uma falha ao deletar o registro');
