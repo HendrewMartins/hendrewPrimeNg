@@ -21,6 +21,7 @@ export const PESQUISA_ALUNO_TELEFONE_CONFIG: PesquisaConfig = {
         },
 
     ],
+    pagina: 0,
     pathApi: 'telefonealuno'
 };
 

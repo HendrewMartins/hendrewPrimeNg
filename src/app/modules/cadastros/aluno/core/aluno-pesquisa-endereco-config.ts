@@ -26,6 +26,7 @@ export const PESQUISA_ALUNO_ENDERECO_CONFIG: PesquisaConfig = {
         },
 
     ],
+    pagina: 0,
     pathApi: 'enderecoaluno'
 };
 

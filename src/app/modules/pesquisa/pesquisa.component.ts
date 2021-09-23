@@ -6,6 +6,11 @@ import { PesquisaConfig } from './models/pesquisa-config';
 
 import { LazyLoadEvent, MenuItem, MessageService } from 'primeng/api';
 import { Alunos } from '../cadastros/aluno/models/alunos';
+import { HttpClient } from '@angular/common/http';
+import { map } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
+import { Observable } from 'rxjs';
+import { AnyObject } from 'chart.js/types/basic';
 
 @Component({
     selector: 'app-pesquisa',
@@ -35,8 +40,12 @@ export class PesquisaComponent implements OnInit {
     public loading!: boolean;
 
     public details!: Alunos;
+    
+    public pagina!: number;
 
     public carregar: boolean = true;
+
+    public pathAPi: string;
 
     public id: number = 0;
     public nome: string = '';
@@ -51,12 +60,14 @@ export class PesquisaComponent implements OnInit {
         private messageService: MessageService,
         private route: ActivatedRoute,
         private router: Router,
+        public http: HttpClient,
     ) {
         const config: PesquisaConfig = this.route.snapshot.data as any;
         this.displayedColumns = [...config.colunas.map(col => col.nome), 'action'];
         this.colunas = config.colunas;
         this.dataSource = config.registros;
-        this.totalRecords = this.dataSource.length;
+        this.pathAPi = config.pathApi;
+        this.pagina = config.pagina;
         if (config.pathApi === 'alunos') {
             this.visuInfo = true;
         } else {
@@ -69,6 +80,7 @@ export class PesquisaComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.carregaQuantidade();
         this.loading = true;
         this.carregar = false;
     }
@@ -94,7 +106,25 @@ export class PesquisaComponent implements OnInit {
         this.router.navigate([value, 'delete'], { relativeTo: this.route.parent });
     }
 
-    showModalDialog(value: any) {
+    public carregaQuantidade(){
+        this.carregaQuantDados().subscribe(registro => {
+            this.totalRecords = registro;
+            console.log('total ' +this.totalRecords)
+        });
+    }
+    public  carregaQuantDados(): Observable<any>{
+        return this.http.get<any>(environment.api +'/api/'+this.pathAPi+'/count').pipe(map((item: any) => {
+            return item;
+       }));
+    }
+
+    public  carregaPage(value: any): Observable<any[]>{
+        return this.http.get<any[]>(environment.api +'/api/'+this.pathAPi+'/page/'+value).pipe(map((item: any) => {
+            return item;
+       }));
+    }
+
+    public showModalDialog(value: any) {
         this.dt_nasc = value.dt_nasc;
         this.nome = value.nome;
         this.id = value.id;
@@ -106,22 +136,20 @@ export class PesquisaComponent implements OnInit {
         this.displayModal = true;
     }
 
-    loadCustomers(event: LazyLoadEvent) {
+    public loadPage(event: LazyLoadEvent) {
         this.loading = true;
-
-        //in a real application, make a remote request to load data using state metadata from event
-        //event.first = First row offset
-        //event.rows = Number of rows per page
-        //event.sortField = Field name to sort with
-        //event.sortOrder = Sort order as number, 1 for asc and -1 for dec
-        //filters: FilterMetadata object having field as key and filter value, filter matchMode as value
-
-        //imitate db connection over a network
-        setTimeout(() => {
-            if (this.dataSource) {
-                this.dataLiz = this.dataSource.slice(event.first, (event.first! + event.rows!));
+        if((event.first === 0) && ( this.pagina === 0)){
+            setTimeout(() => {
                 this.loading = false;
-            }
-        }, 1000);
+            }, 1000); 
+        } else {
+            this.pagina = (event.first! > 0)? event.first!/5: 0;
+            this.carregaPage(this.pagina).subscribe(registro => {
+                this.dataSource = registro;
+                this.loading = false;
+            });
+        }
+
+        
     }
 }

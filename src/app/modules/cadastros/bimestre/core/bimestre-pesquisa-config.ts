@@ -27,5 +27,6 @@ export const PESQUISA_BIMESTRE_CONFIG: PesquisaConfig = {
             nome: 'nm_Alunos'
         }
     ],
+    pagina: 0,
     pathApi: 'bimestre'
 };

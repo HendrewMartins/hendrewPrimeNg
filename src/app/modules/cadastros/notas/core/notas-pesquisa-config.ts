@@ -23,5 +23,6 @@ export const PESQUISA_NOTAS_CONFIG: PesquisaConfig = {
             nome: 'notas'
         }
     ],
+    pagina: 0,
     pathApi: 'nota'
 };

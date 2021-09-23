@@ -16,5 +16,6 @@ export const PESQUISA_ALUNO_CONFIG: PesquisaConfig = {
             nome: 'dt_nasc'
         }
     ],
+    pagina: 0,
     pathApi: 'alunos'
 };

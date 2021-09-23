@@ -1,8 +1,8 @@
 <p-progressSpinner class="progress" *ngIf="carregar"></p-progressSpinner>
 <div class="card" *ngIf="!carregar">
-    <p-table #table dataKey="id" [lazy]="true" [showCurrentPageReport]="true" (onLazyLoad)="loadCustomers($event)"
+    <p-table #table dataKey="id" [lazy]="true" [showCurrentPageReport]="true" (onLazyLoad)="loadPage($event)"
         [paginator]="true" [rows]="5" [totalRecords]="totalRecords" [loading]="loading" styleClass="p-datatable-sm "
-        [columns]="colunas" [value]="dataLiz" responsiveLayout="scroll"
+        [columns]="colunas" [value]="dataSource" responsiveLayout="scroll"
         currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
         [globalFilterFields]="['id','nome']">
         <ng-template pTemplate="caption" *ngIf=visuInfo>
@@ -29,18 +29,18 @@
                 </th>
             </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-dataLiz let-columns="columns">
+        <ng-template pTemplate="body" let-dataSource let-columns="columns">
             <tr>
                 <td *ngFor="let col of columns">
-                    {{dataLiz[col.nome]}}
+                    {{dataSource[col.nome]}}
                 </td>
                 <td>
                     <p-button icon="pi pi-pencil" styleClass="p-button-success" [style]="{'margin-right': '.5em'}"
-                        (click)="editar(dataLiz.id)"></p-button>
+                        (click)="editar(dataSource.id)"></p-button>
                 </td>
                 <td>
                     <p-button icon="pi pi-info-circle" styleClass="p-button-help" *ngIf=visuInfo
-                        (click)="showModalDialog(dataLiz)"></p-button>
+                        (click)="showModalDialog(dataSource)"></p-button>
                 </td>
             </tr>
         </ng-template>

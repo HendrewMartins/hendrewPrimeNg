@@ -10,7 +10,7 @@ export class PesquisaResolveService implements Resolve<any[]> {
     constructor(private http: HttpClient) { }
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): any[] | Observable<any[]> | Promise<any[]> {
-        const api = `${environment.api}/api/${route.data.pathApi}`;
+        const api = `${environment.api}/api/${route.data.pathApi}/page/${route.data.pagina}`;
         return this.http.get<any[]>(api).pipe(map((item: any) => item));
     }
 
