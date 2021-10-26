@@ -22,8 +22,11 @@ export class AppComponent implements OnInit{
           clear: 'Limpar',
           accept: 'Accept',
           reject: 'Cancel',
-          emptyMessage: 'Nenhum resultado encontrado!'
-            //translations
+          emptyMessage: 'Nenhum resultado encontrado!',
+          choose: 'Escolher',
+          upload: 'Enviar',
+          cancel: 'Cancelar'
+            //Tradutor
         });
     }
 }

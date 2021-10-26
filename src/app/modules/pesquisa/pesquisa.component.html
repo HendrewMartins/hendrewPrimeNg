@@ -9,8 +9,8 @@
             <div class="p-d-flex">
                 <span class="p-input-icon-left p-ml-auto">
                     <i class="pi pi-search"></i>
-                    <input pInputText type="text" (input)="table.filterGlobal($event.target.value, 'contains')"
-                        placeholder="Digite ID ou Nome" />
+                    <input pInputText type="text" (keypress)="pesquisaFilters($event)" 
+                    [(ngModel)]="pesquisa" [ngModelOptions]="{standalone: true}" placeholder="Digite ID ou Nome" />
                 </span>
             </div>
         </ng-template>

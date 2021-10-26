@@ -26,6 +26,10 @@ export class MenuDataService {
             {
                 Label: 'Boletim', Icon: 'pi pi-check-circle', RouterLink: 'boletim', Childs: [], IsChildVisible: false
             },
+
+            {
+                Label: 'Importar Alunos', Icon: 'pi pi-cloud-upload', RouterLink: 'importar', Childs: [], IsChildVisible: false
+            },
         ];
     }
 }

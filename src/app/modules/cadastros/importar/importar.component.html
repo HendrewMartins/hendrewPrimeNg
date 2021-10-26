@@ -1,0 +1,13 @@
+<p-progressSpinner class="progress" *ngIf="carregar"></p-progressSpinner>
+<div class="card" *ngIf="!carregar"> 
+    <p-card header="Importar Alunos" styleClass="p-card-shadow">
+        <p-fileUpload name="alunos" url="./upload.php" (onUpload)="onUpload($event)"
+                 accept=".json,.txt" maxFileSize="1000000">
+                <ng-template pTemplate="content">
+                    <ul *ngIf="uploadedFiles.length">
+                        <li *ngFor="let file of uploadedFiles">{{file.name}} - {{file.size}} bytes</li>
+                    </ul>
+                </ng-template>
+        </p-fileUpload>
+    </p-card>    
+</div>    

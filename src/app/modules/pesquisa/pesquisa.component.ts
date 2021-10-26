@@ -7,10 +7,9 @@ import { PesquisaConfig } from './models/pesquisa-config';
 import { LazyLoadEvent, MenuItem, MessageService } from 'primeng/api';
 import { Alunos } from '../cadastros/aluno/models/alunos';
 import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
-import { AnyObject } from 'chart.js/types/basic';
 
 @Component({
     selector: 'app-pesquisa',
@@ -40,12 +39,16 @@ export class PesquisaComponent implements OnInit {
     public loading!: boolean;
 
     public details!: Alunos;
-    
+
     public pagina!: number;
 
     public carregar: boolean = true;
 
     public pathAPi: string;
+
+    public pesquisa: any;
+
+    public valor: any;
 
     public id: number = 0;
     public nome: string = '';
@@ -106,22 +109,41 @@ export class PesquisaComponent implements OnInit {
         this.router.navigate([value, 'delete'], { relativeTo: this.route.parent });
     }
 
-    public carregaQuantidade(){
+    public carregaQuantidade() {
         this.carregaQuantDados().subscribe(registro => {
             this.totalRecords = registro;
-            console.log('total ' +this.totalRecords)
+            console.log('total ' + this.totalRecords)
         });
     }
-    public  carregaQuantDados(): Observable<any>{
-        return this.http.get<any>(environment.api +'/api/'+this.pathAPi+'/count').pipe(map((item: any) => {
+    public carregaQuantDados(): Observable<any> {
+        return this.http.get<any>(environment.api + '/api/' + this.pathAPi + '/count').pipe(map((item: any) => {
             return item;
-       }));
+        }));
     }
 
-    public  carregaPage(value: any): Observable<any[]>{
-        return this.http.get<any[]>(environment.api +'/api/'+this.pathAPi+'/page/'+value).pipe(map((item: any) => {
+    public carregaPage(value: any): Observable<any[]> {
+        return this.http.get<any[]>(environment.api + '/api/' + this.pathAPi + '/page/' + value).pipe(map((item: any) => {
             return item;
-       }));
+        }));
+    }
+
+    public carregaID(value: any): Observable<any> {
+        return this.http.get<any>(environment.api + '/api/' + this.pathAPi + '/id/' + value)
+            .pipe(map((item: any) => {
+                return item;
+            }))
+            .pipe(catchError((error: any) => {
+                this.dataSource = [];
+                this.totalRecords = 0;
+                this.loading = false;
+                return error;
+            }));
+    }
+
+    public carregaNome(value: any): Observable<any[]> {
+        return this.http.get<any[]>(environment.api + '/api/' + this.pathAPi + '/nome/' + value).pipe(map((item: any) => {
+            return item;
+        }));
     }
 
     public showModalDialog(value: any) {
@@ -138,18 +160,65 @@ export class PesquisaComponent implements OnInit {
 
     public loadPage(event: LazyLoadEvent) {
         this.loading = true;
-        if((event.first === 0) && ( this.pagina === 0)){
+        if ((event.first === 0) && (this.pagina === 0)) {
             setTimeout(() => {
                 this.loading = false;
-            }, 1000); 
+            }, 1000);
         } else {
-            this.pagina = (event.first! > 0)? event.first!/5: 0;
+            this.pagina = (event.first! > 0) ? event.first! / 5 : 0;
             this.carregaPage(this.pagina).subscribe(registro => {
                 this.dataSource = registro;
                 this.loading = false;
             });
+            this.carregaQuantidade();
         }
 
-        
+
+    }
+
+    public pesquisaFilters(value: any) {
+        //valida enter e campo preenchido
+        if (value.keyCode === 13 && this.pesquisa !== '') {
+            //ativa loading
+            this.loading = true;
+            //valida se é numero ou texto
+            if (!isNaN(this.pesquisa)) {
+                //valida se é maior que 0
+                if (this.pesquisa > 0) {
+                    this.carregaID(this.pesquisa).subscribe(registro => {
+                        this.valor = registro;
+                        this.dataSource = [];
+                        this.dataSource.push(registro);
+                        this.loading = false;
+                        this.totalRecords = this.dataSource.length;
+                    }
+                    );
+                }
+                else {
+                    this.carregaPage(this.pagina).subscribe(registro => {
+                        this.dataSource = registro;
+                        this.carregaQuantidade();
+                        this.loading = false;
+                    });
+                }
+            } else {
+                //filtra pelo nome
+                this.carregaNome(this.pesquisa).subscribe(registro => {
+                    this.valor = registro;
+                    this.dataSource = [];
+                    this.dataSource = registro;
+                    this.loading = false;
+                    this.totalRecords = this.dataSource.length;
+                });
+                this.loading = false;
+            }
+        } else if (value.keyCode === 13 && this.pesquisa === '') {
+            this.loading = true;
+            this.carregaPage(this.pagina).subscribe(registro => {
+                this.dataSource = registro;
+                this.loading = false;
+            });
+            this.carregaQuantidade();
+        }
     }
 }

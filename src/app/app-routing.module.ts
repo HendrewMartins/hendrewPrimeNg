@@ -12,6 +12,7 @@ const routes: Routes = [
           { path: 'bimestre', loadChildren: () => import('./modules/cadastros/bimestre/bimestre.module').then(m => m.BimestreModule)},
           { path: 'boletim', loadChildren: () => import('./modules/cadastros/boletim/boletim.module').then(m => m.BoletimModule)},
           { path: 'notas', loadChildren: () => import('./modules/cadastros/notas/notas.module').then(m => m.NotasModule)},
+          { path: 'importar', loadChildren: () => import('./modules/cadastros/importar/importar.module').then(m => m.ImportarModule)},
     ]
   }
 ];

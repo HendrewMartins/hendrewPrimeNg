@@ -72,6 +72,7 @@ import { TabViewModule } from 'primeng/tabview';
         TabViewModule
     ],
     declarations: [
+  
   ]
 })
 export class PrimeNgModule { }

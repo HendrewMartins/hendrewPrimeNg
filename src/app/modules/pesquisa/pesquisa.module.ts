@@ -10,6 +10,7 @@ import { CardModule } from 'primeng/card';
 import { PanelModule } from 'primeng/panel';
 import { DialogModule } from 'primeng/dialog'
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
         FlexLayoutModule,
         PanelModule,
         DialogModule,
-        ProgressSpinnerModule
+        ProgressSpinnerModule,
+        FormsModule
     ],
     exports: [],
     declarations: [PesquisaComponent],
